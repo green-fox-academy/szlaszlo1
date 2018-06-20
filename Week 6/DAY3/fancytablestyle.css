@@ -11,10 +11,10 @@ width:40%;
 background-color:white;
 }
 tr:nth-child(even){
-	background-color:#DCDCDC;
+	background-color:#dcdcdc;
 }
 body{
-	background-color:#1E90FF;
+	background-color:#1e90ff;
 }
 td{
 	padding:10px;
