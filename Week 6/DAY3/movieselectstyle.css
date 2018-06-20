@@ -1,21 +1,17 @@
-#scifi {
-  display: none;
+body {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 400px;
+  /* To see the outline of the form */
+  padding: 1em;
+  font-family:sans-serif;
 }
-
-#scifi.show {
-  display: block;
+select{
+	width: 200px;
+	padding:10px;
+	float:left;
+	color:blue;
 }
-#drama {
-  display: none;
-}
-
-#drama.show {
-  display: block;
-}
-#comedy {
-  display: none;
-}
-
-#comedy.show {
-  display: block;
+label{
+	display:inline-block;
 }

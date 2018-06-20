@@ -13,73 +13,96 @@ var first=document.form.genre.value;
 var second=document.form.movie;
 
     var scifi = ['Moon', '2001 Space odessy', 'Contact'];
-    var drama = ['Square', 'Circle', 'Triangle'];
-    var comedy = ['John', 'David', 'Sarah'];
-	alert("ok");
-	if(first.value==1)
+    var drama = ['Darkest hour', 'There will be blood','American beauty'];
+    var comedy = ['Airplane!','Deadpool',"Wayne's World"];
+	switch(first)
+	{
+	case '1':
+		
+		document.form.movie.options.length = 0;
+		var opt0 = document.createElement('option');
+        opt0.text = "--Select a Movie--";
+        second.options.add(opt0);
+		for (var i = 0; i < scifi.length; i++) {
+	var opt = document.createElement('option');
+	opt.value = scifi[i];
+    opt.text = scifi[i];
+    document.form.movie.options.add(opt);
+	}
+		break;
+	case '2':
+		document.form.movie.options.length = 0; 
+		var opt0 = document.createElement('option');
+        opt0.text = "--Select a Movie--";
+        second.options.add(opt0);
+        for (var j = 0; j < drama.length; j++) {
+            var opt = document.createElement('option');
+        opt.value = drama[j];
+        opt.text = drama[j];
+        second.options.add(opt);
+            }
+		break;
+	case '3':
+		document.form.movie.options.length = 0;
+		var opt0 = document.createElement('option');
+        opt0.text = "--Select a Movie--";
+        second.options.add(opt0);
+            for (var k = 0; k < comedy.length; k++) {
+			
+                var opt = document.createElement('option');
+        opt.value = comedy[k];
+        opt.text = comedy[k];
+        second.options.add(opt);
+            }
+		break;
+	default:
+	break;
+	}
+	/*if(first==3)
 	{
 	alert("1");
+	
 	}
 	else
 	{
 	alert("2");
+	document.form.movie.options.length = 0;
+	for (var i = 0; i < scifi.length; i++) {
+	var opt = document.createElement('option');
+	opt.value = scifi[i];
+    opt.text = scifi[i];
+    document.form.movie.options.add(opt);
 	}
- /*switch (first) {
-        case '1':
-            alert("1");
-			document.form.movie.options.length = 0;
-			
-            for (i = 0; i < scifi.length; i++) {
-             var opt = document.createElement('option');
-        opt.value = scifi[i];
-        opt.text = scifi[i];
-        document.form.movie.options.add(opt);
-            }
-            break;
-      /*  case '2':
-		alert("2");
-            second.options.length = 0; 
-        for (i = 0; i < drama.length; i++) {
-            var opt = document.createElement('option');
-        opt.value = drama[i];
-        opt.text = drama[i];
-        second.options.add(opt);
-            }
-            break;
-        case '3':
-		//alert("3");
-            second.options.length = 0;
-            for (i = 0; i < comedy.length; i++) {
-			
-                var opt = document.createElement('option');
-        opt.value = comedy[i];
-        opt.text = comedy[i];
-        second.options.add(opt);
-            }
-            break;
-            default:
-                second.options.length = 0;
-            break;*/
+	alert("finally"+first);
+	}*/
+	//switch(first.value)
+}
+
+function movieSelect()
+{
+
+var m=document.form.movie.value;
+alert(m);
+document.getElementByID('sm').innerHTML="The selected movie: sdfdsf";
 }
 </script> 
 </head>
 <body>
 <h1>Movie Selector</h1>
 <form name="form" action="send.html" onSubmit="return ertekel()">
-<fieldset>
-<legend>Movie Selector</legend>
 <div>
 <select name="genre" placeholder="Select Genre" size="1" id="genre" onchange="filmkategoria()">
+<option disabled selected value>--Select Genre--</option>
 <option value="1">Sci-fi</option>
 <option value="2">Drama</option>
 <option value="3">Comedy</option>
 </select>
 </div>
 <div>
-<select name="movie" id="movie">
+<select name="movie" id="movie" onchange="movieSelect()">
 </select>
 </div>
-</fieldset>
+<p id="sm" name="sm">The selected movie:-</p><label name="selectedMovie" id="selectedMovie" for="sm">-</label>
 </form>
 </body>
 </HTML>
