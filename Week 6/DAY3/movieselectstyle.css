@@ -1,0 +1,21 @@
+#scifi {
+  display: none;
+}
+
+#scifi.show {
+  display: block;
+}
+#drama {
+  display: none;
+}
+
+#drama.show {
+  display: block;
+}
+#comedy {
+  display: none;
+}
+
+#comedy.show {
+  display: block;
+}

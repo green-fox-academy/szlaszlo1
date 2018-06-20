@@ -1,0 +1,32 @@
+input:focus{
+	border-color:green;
+}
+label
+{
+	display:block;
+	font-size:10px;
+	padding-bottom:5px;
+}
+input{
+	
+	box-sizing: border-box;
+	padding:5px;
+}
+form {
+  /* Just to center the form on the page */
+  margin: 0 auto;
+  width: 400px;
+  /* To see the outline of the form */
+  padding: 1em;
+  font-family:sans-serif;
+}
+input[type=button]{
+	border: 1px solid #CCC;
+  border-radius: 0.1em;
+  width:100px;
+  color:white;
+  
+}
+div{
+	padding: 5px;
+}
