@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/HTML4/strict.dtd">
+<HTML>
+<head>
+<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8">
+
+<title>oldal címeeeeeeee</title>
+<link rel="stylesheet" href="loginformstyle.css" type="text/css">
+<script type="text/javascript">
+function ertekel()
+{
+if(document.form.password1.value==document.form.password2.value)
+{
+return true;
+}
+else
+{
+alert("Passwords does not match");
+return false;
+}
+}
+</script>
+</head>
+<body>
+
+<form name="form" action="send.html" onSubmit="return ertekel()">
+<h1>ACCOUNT LOGIN</h1>
+<div>
+<label for="username">USERNAME</label>
+<input type="email" id="username" required autofocus>
+</div>
+<div>
+<label for="password1">PASSWORD</label>
+<input type="password" required id="password1" autofocus>
+</div>
+<div>
+<label for="password2">PASSWORD AGAIN</label>
+<input type="password" required id="password2" autofocus>
+</div>
+<input type="submit" value="Login">
+</form>
+</body>
+</HTML>
