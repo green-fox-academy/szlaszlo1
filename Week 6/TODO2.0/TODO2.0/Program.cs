@@ -38,11 +38,64 @@ namespace TODO
                         sqliteConnection.Open();
                         Console.WriteLine("Connected to database");
                     }
-                    string createTable = @"CREATE TABLE IF NOT EXIST Todos(
-                                   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                                   text NVARCHAR(2048) NULL)";
+                    string createTable = @"CREATE TABLE IF NOT EXISTS Todos(
+                                           id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                                           text NVARCHAR(2048) NOT NULL,
+                                           createdAt DATETIME NOT NULL,
+                                           completedAt DATETIME)";
                     SQLiteCommand command = new SQLiteCommand(createTable, sqliteConnection);
                     command.ExecuteNonQuery();
+
+                    switch (args[0])
+                    {
+                        case "-a":
+                            if (args.Length == 1)
+                            {
+                                throw new Exception("Unable to add: no task provided");
+                            }
+                            else if (args.Length==2)
+                            {
+                                TODO t = new TODO(args[1]);
+                                SaveToDB.Save(t,sqliteConnection);
+                            }
+                            else
+                            {
+                                List<TODO> t = new List<TODO>();
+                                for (int i = 1; i < args.Length-1; i++)
+                                {
+                                    t.Add(new TODO(args[i].ToString()));
+                                }
+                                SaveToDB.SaveAll(t, sqliteConnection);
+                            }
+                            break;
+                        case "-l":
+                            if (args.Length == 1)
+                            {
+                                SaveToDB.LoadAll(sqliteConnection);
+                            }
+                            else if (args.Length == 2)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(args[1]);
+                                    SaveToDB.Load(x,sqliteConnection);
+                                }
+                                catch
+                                {
+                                    //Console.WriteLine("jo út");
+                                    SaveToDB.Load(args[1], sqliteConnection);
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception("Nem jó paramétereket adtál meg!!!");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+
                     sqliteConnection.Close();
                 }
                 else
@@ -63,7 +116,7 @@ namespace TODO
              {
                  Console.WriteLine(e);
              }*/
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         private static string[] ReadLines(string fileName)
@@ -88,12 +141,12 @@ namespace TODO
         private DateTime completedAt;
         private static int id_incr = 1;
 
-        public TODO(string text, DateTime createdat)
+        public TODO(string text)
         {
             this.id = TODO.id_incr;
             TODO.id_incr += 1;
             this.text = text;
-            createdat = DateTime.Now;
+            this.createdAt = DateTime.Now;
         }
 
         public int Id
@@ -117,26 +170,67 @@ namespace TODO
     }
     public class SaveToDB
     {
-        public static void Save(TODO t)
+        public static void Save(TODO t, SQLiteConnection sqlc)
         {
-
-
+            StringBuilder sb = new StringBuilder("INSERT INTO Todos(text,createdAt) VALUES('");
+            sb.Append(t.Text);
+            sb.Append("','");
+            sb.Append(t.CreatedAt);
+            sb.Append("')");
+            SQLiteCommand cmd=new SQLiteCommand("INSERT INTO Todos(text,createdAt) VALUES(@value,@date)",sqlc);
+            cmd.Parameters.AddWithValue("@value",t.Text);
+            cmd.Parameters.AddWithValue("@date", t.CreatedAt);
+            //SQLiteCommand command = new SQLiteCommand(sb.ToString(), sqlc);
+            cmd.ExecuteNonQuery();
         }
-        public static void SaveAll(List<TODO> todos)
+        public static void SaveAll(List<TODO> todos, SQLiteConnection sqlc)
         {
-
+            todos.ForEach(x => Save(x,sqlc));
         }
-        public static void Load(int id)
+        public static void Load(int id, SQLiteConnection sqlc)
         {
-
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
+            {
+                cmd.Parameters.AddWithValue("@value", id);
+                using (SQLiteDataReader r = cmd.ExecuteReader())
+                {
+                    while (r.Read())
+                    {
+                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                    }
+                }
+            }
+                
         }
-        public static void Load(string text)
+        public static void Load(string text, SQLiteConnection sqlc)
         {
+            //Console.WriteLine("Jó út");
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE text LIKE \"%@value%\"", sqlc))
+            {
+                cmd.Parameters.AddWithValue("@value", text.ToString());
+                using (SQLiteDataReader r = cmd.ExecuteReader())
+                {
+                    while (r.Read())
+                    {
+                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                    }
+                }
+            }
         }
-        public static void LoadAll()
+        public static void LoadAll(SQLiteConnection sqlc)
         {
-
-
+            string listAll = "SELECT * FROM Todos";
+            List<TODO> result = new List<TODO>();
+            using (SQLiteCommand command = new SQLiteCommand(listAll, sqlc))
+            {
+                using (SQLiteDataReader r = command.ExecuteReader())
+                {
+                    while (r.Read())
+                    {
+                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                    }
+                }
+            }
         }
     }
 }
