@@ -61,7 +61,7 @@ namespace TODO
                             else
                             {
                                 List<TODO> t = new List<TODO>();
-                                for (int i = 1; i < args.Length-1; i++)
+                                for (int i = 1; i < args.Length; i++)
                                 {
                                     t.Add(new TODO(args[i].ToString()));
                                 }
@@ -278,6 +278,7 @@ namespace TODO
             cmd.Parameters.AddWithValue("@date", t.CreatedAt);
             //SQLiteCommand command = new SQLiteCommand(sb.ToString(), sqlc);
             cmd.ExecuteNonQuery();
+            Console.WriteLine($"Item: {t.Text} added to your ToDo list");
         }
         public static void SaveAll(List<TODO> todos, SQLiteConnection sqlc)
         {
@@ -381,7 +382,7 @@ namespace TODO
                     cmd.Parameters.AddWithValue("@value", id);
                     SQLiteDataReader r = cmd.ExecuteReader();   
                 }
-                Console.WriteLine($"Task with id: {id}");
+                Console.WriteLine($"Task with id: {id} removed");
             }
             else
             {
