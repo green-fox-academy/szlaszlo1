@@ -159,7 +159,33 @@ namespace TODO
                             }
                             break;
                         case "-u":
-
+                            if (args.Length == 1)
+                            {
+                                Console.WriteLine("Unable to update: no id defined");
+                            }
+                            else if (args.Length == 3)
+                            {
+                                try
+                                {
+                                    int x=Convert.ToInt32(args[1]);
+                                    try
+                                    {
+                                        SaveToDB.UpdateElement(x, args[2], sqliteConnection);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Too much arguments");
+                            }
                             break;
                         default:
                             break;
@@ -380,6 +406,24 @@ namespace TODO
             else
             {
                 throw new Exception("Unable to check: index is out of bound");
+            }
+        }
+        public static void UpdateElement(int id,string text, SQLiteConnection sqlc)
+        {
+            bool exist = CheckElement(id, sqlc);
+            if (exist)
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET text=@text WHERE id=@value", sqlc))
+                {
+                    cmd.Parameters.AddWithValue("@value", id);
+                    cmd.Parameters.AddWithValue("@text", text);
+                    SQLiteDataReader r = cmd.ExecuteReader();
+                }
+                Console.WriteLine($"Task with id: {id} updated to: {text}");
+            }
+            else
+            {
+                throw new Exception("Unable to update: index is out of bound");
             }
         }
     }
