@@ -205,9 +205,9 @@ namespace TODO
         public static void Load(string text, SQLiteConnection sqlc)
         {
             //Console.WriteLine("Jó út");
-            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE text LIKE \"%@value%\"", sqlc))
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE text LIKE @value", sqlc))
             {
-                cmd.Parameters.AddWithValue("@value", text.ToString());
+                cmd.Parameters.AddWithValue("@value", "%"+text+"%");
                 using (SQLiteDataReader r = cmd.ExecuteReader())
                 {
                     while (r.Read())
