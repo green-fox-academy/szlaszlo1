@@ -23,20 +23,20 @@ namespace TODO
                     SQLiteConnection sqliteConnection;
                     if (File.Exists(dbName))
                     {
-                        Console.WriteLine("Database already exist, connect to database...");
+                        //Console.WriteLine("Database already exist, connect to database...");
                         sqliteConnection = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
                         sqliteConnection.Open();
-                        Console.WriteLine("Connected to database");
+                        //Console.WriteLine("Connected to database");
                     }
                     else
                     {
-                        Console.WriteLine("Create database...");
+                        //Console.WriteLine("Create database...");
                         SQLiteConnection.CreateFile(dbName);
-                        Console.WriteLine("Database created");
-                        Console.WriteLine("Connect to database");
+                        //Console.WriteLine("Database created");
+                        //Console.WriteLine("Connect to database");
                         sqliteConnection = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
                         sqliteConnection.Open();
-                        Console.WriteLine("Connected to database");
+                        //Console.WriteLine("Connected to database");
                     }
                     string createTable = @"CREATE TABLE IF NOT EXISTS Todos(
                                            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -78,18 +78,88 @@ namespace TODO
                                 try
                                 {
                                     int x = Convert.ToInt32(args[1]);
-                                    SaveToDB.Load(x,sqliteConnection);
+                                    try
+                                    {
+                                        SaveToDB.Load(x, sqliteConnection);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);   
+                                    }
                                 }
                                 catch
                                 {
-                                    //Console.WriteLine("jo út");
-                                    SaveToDB.Load(args[1], sqliteConnection);
+                                    try
+                                    {
+                                        SaveToDB.Load(args[1], sqliteConnection);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
                                 }
                             }
                             else
                             {
                                 throw new Exception("Nem jó paramétereket adtál meg!!!");
                             }
+                            break;
+                        case "-r":
+                            if (args.Length == 1)
+                            {
+                                throw new Exception("Unable to remove: no index provided");
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(args[1]);
+                                    try
+                                    {
+                                        SaveToDB.RemoveElement(x, sqliteConnection);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    throw new Exception("Unable to remove: index is not a number");
+                                }
+                            }
+                            break;
+                        case "-c":
+                            if (args.Length==1)
+                            {
+                                Console.WriteLine("Unable to check: no index provided");
+                            }
+                            else if(args.Length==2)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(args[1]);
+                                    try
+                                    {
+                                        SaveToDB.CheckCompleted(x, sqliteConnection);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    throw new Exception("Unable to remove: index is not a number");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Too much arguments");
+                            }
+                            break;
+                        case "-u":
+
                             break;
                         default:
                             break;
@@ -189,17 +259,26 @@ namespace TODO
         }
         public static void Load(int id, SQLiteConnection sqlc)
         {
-            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
+            bool exist = CheckElement(id, sqlc);
+            if (exist)
             {
-                cmd.Parameters.AddWithValue("@value", id);
-                using (SQLiteDataReader r = cmd.ExecuteReader())
+                using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
                 {
-                    while (r.Read())
+                    cmd.Parameters.AddWithValue("@value", id);
+                    using (SQLiteDataReader r = cmd.ExecuteReader())
                     {
-                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        while (r.Read())
+                        {
+                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        }
                     }
                 }
             }
+            else
+            {
+                throw new Exception("Unable to load: index is out of bound");
+            }
+            
                 
         }
         public static void Load(string text, SQLiteConnection sqlc)
@@ -210,9 +289,16 @@ namespace TODO
                 cmd.Parameters.AddWithValue("@value", "%"+text+"%");
                 using (SQLiteDataReader r = cmd.ExecuteReader())
                 {
-                    while (r.Read())
+                    if (r.HasRows)
                     {
-                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        while (r.Read())
+                        {
+                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("No task with this text");
                     }
                 }
             }
@@ -225,11 +311,75 @@ namespace TODO
             {
                 using (SQLiteDataReader r = command.ExecuteReader())
                 {
-                    while (r.Read())
+                    if (r.HasRows == false)
                     {
-                        Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        Console.WriteLine("No todos for today! :)");
+                    }
+                    else
+                    {
+                        while (r.Read())
+                        {
+                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                        }
                     }
                 }
+            }
+        }
+        public static bool CheckElement(int id, SQLiteConnection sqlc)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
+            {
+                cmd.Parameters.AddWithValue("@value", id);
+                using (SQLiteDataReader r = cmd.ExecuteReader())
+                {
+                    if (r.HasRows)
+                    {
+                        //Console.WriteLine("true");
+                        return true;
+                    }
+                    else
+                    {
+                        //Console.WriteLine("false");
+                        return false;
+                    }
+                }
+            }
+        }
+        public static void RemoveElement(int id, SQLiteConnection sqlc)
+        {
+            bool exists = CheckElement(id, sqlc);
+            if (exists)
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Todos WHERE id=@value", sqlc))
+                {
+                    cmd.Parameters.AddWithValue("@value", id);
+                    SQLiteDataReader r = cmd.ExecuteReader();   
+                }
+                Console.WriteLine($"Task with id: {id}");
+            }
+            else
+            {
+                throw new Exception("Unable to remove: index is out of bound");
+            }
+        }
+        public static void CheckCompleted(int id, SQLiteConnection sqlc)
+        {
+            bool exist = CheckElement(id, sqlc);
+            DateTime date = DateTime.Now;
+            if (exist)
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET completedAT=@date WHERE id=@value", sqlc))
+                {
+                    
+                    cmd.Parameters.AddWithValue("@value", id);
+                    cmd.Parameters.AddWithValue("@date", date);
+                    SQLiteDataReader r = cmd.ExecuteReader();
+                }
+                Console.WriteLine($"Task with id: {id} completed at: {date}");
+            }
+            else
+            {
+                throw new Exception("Unable to check: index is out of bound");
             }
         }
     }
