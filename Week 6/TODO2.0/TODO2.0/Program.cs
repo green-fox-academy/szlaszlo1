@@ -51,7 +51,7 @@ namespace TODO
                         case "-a":
                             if (args.Length == 1)
                             {
-                                throw new Exception("Unable to add: no task provided");
+                                Console.WriteLine("Unable to add: no task provided");
                             }
                             else if (args.Length==2)
                             {
@@ -101,13 +101,13 @@ namespace TODO
                             }
                             else
                             {
-                                throw new Exception("Nem jó paramétereket adtál meg!!!");
+                                Console.WriteLine("Nem jó paramétereket adtál meg!!!");
                             }
                             break;
                         case "-r":
                             if (args.Length == 1)
                             {
-                                throw new Exception("Unable to remove: no index provided");
+                                Console.WriteLine("Unable to remove: no index provided");
                             }
                             else
                             {
@@ -196,12 +196,12 @@ namespace TODO
                 }
                 else
                 {
-                    throw new Exception(args[0] + " nem egy létező paraméter");
+                    Console.WriteLine(args[0] + " nem egy létező paraméter");
                 }
             }
             else
             {
-                    throw new Exception("Nem adott meg paramétert");
+                Console.WriteLine("Nem adott meg paramétert");
             }
 
             /* try
@@ -214,7 +214,7 @@ namespace TODO
              }*/
             //Console.ReadKey();
         }
-
+        
         private static string[] ReadLines(string fileName)
         {
             string[] lines = new string[0];
@@ -296,7 +296,17 @@ namespace TODO
                     {
                         while (r.Read())
                         {
-                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                            if (r[3].GetType() == typeof(DBNull))
+                            {
+                                //Console.WriteLine("here");
+                                Console.WriteLine($"{r[0]}. {r[1]}");
+                            }
+                            else
+                            {
+                                //Console.WriteLine(r[3].GetType().ToString());
+                                int days = ComplitionTime(Convert.ToDateTime(r[2]), Convert.ToDateTime(r[3]));
+                                Console.WriteLine($"{r[0]}. {r[1]} took {days} days to complete");
+                            }
                         }
                     }
                 }
@@ -320,7 +330,17 @@ namespace TODO
                     {
                         while (r.Read())
                         {
-                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                            if (r[3].GetType() == typeof(DBNull))
+                            {
+                                //Console.WriteLine("here");
+                                Console.WriteLine($"{r[0]}. {r[1]}");
+                            }
+                            else
+                            {
+                                //Console.WriteLine(r[3].GetType().ToString());
+                                int days = ComplitionTime(Convert.ToDateTime(r[2]), Convert.ToDateTime(r[3]));
+                                Console.WriteLine($"{r[0]}. {r[1]} took {days} days to complete");
+                            }
                         }
                     }
                     else
@@ -346,7 +366,18 @@ namespace TODO
                     {
                         while (r.Read())
                         {
-                            Console.WriteLine($"{r[0]}. {r[1]} {r[2]} {r[3]}");
+                            if (r[3].GetType()==typeof(DBNull))
+                            {
+                                //Console.WriteLine("here");
+                                Console.WriteLine($"{r[0]}. {r[1]}");
+                            }
+                            else
+                            {
+                                //Console.WriteLine(r[3].GetType().ToString());
+                                    int days = ComplitionTime(Convert.ToDateTime(r[2]), Convert.ToDateTime(r[3]));
+                                    Console.WriteLine($"{r[0]}. {r[1]} took {days} day(s) to complete");
+                            }
+                            
                         }
                     }
                 }
@@ -426,6 +457,12 @@ namespace TODO
             {
                 throw new Exception("Unable to update: index is out of bound");
             }
+        }
+        public static int ComplitionTime(DateTime created, DateTime completed)
+        {
+            TimeSpan t = new TimeSpan();
+            t = completed - created;
+            return Convert.ToInt32(t.TotalDays);
         }
     }
 }
