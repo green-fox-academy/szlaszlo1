@@ -8,9 +8,11 @@ using System.Data.SQLite;
 
 namespace TODO
 {
+    
     class Program
     {
-        private static List<TODO> todos = new List<TODO>();
+        public static List<TODO> todos;
+        public static SQLiteConnection sqliteConnection;
         static void Main(string[] args)
         {
 
@@ -20,7 +22,7 @@ namespace TODO
                 if (commands.Any(elem => elem.Equals(args[0])))
                 {
                     string dbName = "MyDatabase.sqlite";
-                    SQLiteConnection sqliteConnection;
+                    
                     if (File.Exists(dbName))
                     {
                         //Console.WriteLine("Database already exist, connect to database...");
@@ -56,7 +58,7 @@ namespace TODO
                             else if (args.Length==2)
                             {
                                 TODO t = new TODO(args[1]);
-                                SaveToDB.Save(t,sqliteConnection);
+                                SaveToDB.Save(t);
                             }
                             else
                             {
@@ -65,13 +67,13 @@ namespace TODO
                                 {
                                     t.Add(new TODO(args[i].ToString()));
                                 }
-                                SaveToDB.SaveAll(t, sqliteConnection);
+                                SaveToDB.SaveAll(t);
                             }
                             break;
                         case "-l":
                             if (args.Length == 1)
                             {
-                                SaveToDB.LoadAll(sqliteConnection);
+                                SaveToDB.LoadAll();
                             }
                             else
                             {
@@ -80,7 +82,7 @@ namespace TODO
                                     int x = Convert.ToInt32(args[1]);
                                     try
                                     {
-                                        SaveToDB.Load(x, sqliteConnection);
+                                        SaveToDB.Load(x);
                                     }
                                     catch (Exception e)
                                     {
@@ -103,7 +105,7 @@ namespace TODO
                                     }
                                     try
                                     {
-                                        SaveToDB.Load(loadText, sqliteConnection);
+                                        SaveToDB.Load(loadText);
                                     }
                                     catch (Exception e)
                                     {
@@ -124,7 +126,7 @@ namespace TODO
                                     int x = Convert.ToInt32(args[1]);
                                     try
                                     {
-                                        SaveToDB.RemoveElement(x, sqliteConnection);
+                                        SaveToDB.RemoveElement(x);
                                     }
                                     catch (Exception e)
                                     {
@@ -149,7 +151,7 @@ namespace TODO
                                     int x = Convert.ToInt32(args[1]);
                                     try
                                     {
-                                        SaveToDB.CheckCompleted(x, sqliteConnection);
+                                        SaveToDB.CheckCompleted(x);
                                     }
                                     catch (Exception e)
                                     {
@@ -178,7 +180,7 @@ namespace TODO
                                     int x=Convert.ToInt32(args[1]);
                                     try
                                     {
-                                        SaveToDB.UpdateElement(x, args[2], sqliteConnection);
+                                        SaveToDB.UpdateElement(x, args[2]);
                                     }
                                     catch (Exception e)
                                     {
@@ -209,6 +211,15 @@ namespace TODO
             }
             else
             {
+                todos = new List<TODO>();
+
+
+                while (Console.ReadLine().ToLower()!="exit")
+                {
+                    string command = Console.ReadLine();
+                    string arg = command.Substring(0, 2);
+
+                }
                 Console.WriteLine("Nem adott meg paramétert");
             }
 
@@ -274,30 +285,30 @@ namespace TODO
     }
     public class SaveToDB
     {
-        public static void Save(TODO t, SQLiteConnection sqlc)
+        public static void Save(TODO t)
         {
             StringBuilder sb = new StringBuilder("INSERT INTO Todos(text,createdAt) VALUES('");
             sb.Append(t.Text);
             sb.Append("','");
             sb.Append(t.CreatedAt);
             sb.Append("')");
-            SQLiteCommand cmd=new SQLiteCommand("INSERT INTO Todos(text,createdAt) VALUES(@value,@date)",sqlc);
+            SQLiteCommand cmd=new SQLiteCommand("INSERT INTO Todos(text,createdAt) VALUES(@value,@date)",Program.sqliteConnection);
             cmd.Parameters.AddWithValue("@value",t.Text);
             cmd.Parameters.AddWithValue("@date", t.CreatedAt);
             //SQLiteCommand command = new SQLiteCommand(sb.ToString(), sqlc);
             cmd.ExecuteNonQuery();
             Console.WriteLine($"Item: {t.Text} added to your ToDo list");
         }
-        public static void SaveAll(List<TODO> todos, SQLiteConnection sqlc)
+        public static void SaveAll(List<TODO> todos)
         {
-            todos.ForEach(x => Save(x,sqlc));
+            todos.ForEach(x => Save(x));
         }
-        public static void Load(int id, SQLiteConnection sqlc)
+        public static void Load(int id)
         {
-            bool exist = CheckElement(id, sqlc);
+            bool exist = CheckElement(id);
             if (exist)
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
+                using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", Program.sqliteConnection))
                 {
                     cmd.Parameters.AddWithValue("@value", id);
                     using (SQLiteDataReader r = cmd.ExecuteReader())
@@ -326,10 +337,10 @@ namespace TODO
             
                 
         }
-        public static void Load(string text, SQLiteConnection sqlc)
+        public static void Load(string text)
         {
             //Console.WriteLine("Jó út");
-            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE text LIKE @value", sqlc))
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE text LIKE @value", Program.sqliteConnection))
             {
                 cmd.Parameters.AddWithValue("@value", "%"+text+"%");
                 using (SQLiteDataReader r = cmd.ExecuteReader())
@@ -358,11 +369,11 @@ namespace TODO
                 }
             }
         }
-        public static void LoadAll(SQLiteConnection sqlc)
+        public static void LoadAll()
         {
             string listAll = "SELECT * FROM Todos";
             List<TODO> result = new List<TODO>();
-            using (SQLiteCommand command = new SQLiteCommand(listAll, sqlc))
+            using (SQLiteCommand command = new SQLiteCommand(listAll, Program.sqliteConnection))
             {
                 using (SQLiteDataReader r = command.ExecuteReader())
                 {
@@ -391,9 +402,9 @@ namespace TODO
                 }
             }
         }
-        public static bool CheckElement(int id, SQLiteConnection sqlc)
+        public static bool CheckElement(int id)
         {
-            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", sqlc))
+            using (SQLiteCommand cmd = new SQLiteCommand("SELECT * from Todos WHERE id=@value", Program.sqliteConnection))
             {
                 cmd.Parameters.AddWithValue("@value", id);
                 using (SQLiteDataReader r = cmd.ExecuteReader())
@@ -411,12 +422,12 @@ namespace TODO
                 }
             }
         }
-        public static void RemoveElement(int id, SQLiteConnection sqlc)
+        public static void RemoveElement(int id)
         {
-            bool exists = CheckElement(id, sqlc);
+            bool exists = CheckElement(id);
             if (exists)
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Todos WHERE id=@value", sqlc))
+                using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Todos WHERE id=@value", Program.sqliteConnection))
                 {
                     cmd.Parameters.AddWithValue("@value", id);
                     SQLiteDataReader r = cmd.ExecuteReader();   
@@ -428,13 +439,13 @@ namespace TODO
                 throw new Exception("Unable to remove: index is out of bound");
             }
         }
-        public static void CheckCompleted(int id, SQLiteConnection sqlc)
+        public static void CheckCompleted(int id)
         {
-            bool exist = CheckElement(id, sqlc);
+            bool exist = CheckElement(id);
             DateTime date = DateTime.Now;
             if (exist)
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET completedAT=@date WHERE id=@value", sqlc))
+                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET completedAT=@date WHERE id=@value", Program.sqliteConnection))
                 {
                     
                     cmd.Parameters.AddWithValue("@value", id);
@@ -448,12 +459,12 @@ namespace TODO
                 throw new Exception("Unable to check: index is out of bound");
             }
         }
-        public static void UpdateElement(int id,string text, SQLiteConnection sqlc)
+        public static void UpdateElement(int id,string text)
         {
-            bool exist = CheckElement(id, sqlc);
+            bool exist = CheckElement(id);
             if (exist)
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET text=@text WHERE id=@value", sqlc))
+                using (SQLiteCommand cmd = new SQLiteCommand("UPDATE Todos SET text=@text WHERE id=@value", Program.sqliteConnection))
                 {
                     cmd.Parameters.AddWithValue("@value", id);
                     cmd.Parameters.AddWithValue("@text", text);
