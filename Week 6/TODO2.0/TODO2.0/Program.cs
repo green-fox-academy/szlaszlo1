@@ -73,7 +73,7 @@ namespace TODO
                             {
                                 SaveToDB.LoadAll(sqliteConnection);
                             }
-                            else if (args.Length == 2)
+                            else
                             {
                                 try
                                 {
@@ -89,19 +89,27 @@ namespace TODO
                                 }
                                 catch
                                 {
+                                    string loadText = "";
+                                    for (int i = 1; i < args.Length; i++)
+                                    {
+                                        if (i != args.Length - 1)
+                                        {
+                                            loadText += args[i].ToString() + " ";
+                                        }
+                                        else
+                                        {
+                                            loadText += args[i].ToString();
+                                        }
+                                    }
                                     try
                                     {
-                                        SaveToDB.Load(args[1], sqliteConnection);
+                                        SaveToDB.Load(loadText, sqliteConnection);
                                     }
                                     catch (Exception e)
                                     {
                                         Console.WriteLine(e.Message);
                                     }
                                 }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Nem jó paramétereket adtál meg!!!");
                             }
                             break;
                         case "-r":
