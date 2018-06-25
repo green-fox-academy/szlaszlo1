@@ -7,20 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPD01.Controllers
 {
-    [Route("api")]
-    public class RESTController : Controller
+    [Route("web")]
+    public class WebController : Controller
     {
-        
         public IActionResult Index()
         {
             return View();
         }
 
+
         [Route("greeting")]
-        public IActionResult Greeting(string yourName="Anonimous")
+        public IActionResult Greeting(string yourName)
         {
-            Greeting greeting = new Greeting(yourName);
-            return new JsonResult(greeting);
+            var greeting = new Greeting(yourName);
+            return View(greeting);
         }
     }
 }
