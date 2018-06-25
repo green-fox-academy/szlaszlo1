@@ -24,9 +24,10 @@ namespace ASPD01.Controllers
         }
 
         [Route("greetingdiff")]
-        public IActionResult GreetDiffLang()
+        public IActionResult GreetDiffLang(string name="Anonimous")
         {
-            return View();
+            GreetDiffLang gdl = new GreetDiffLang(name);
+            return View(gdl);
         }
     }
 }
