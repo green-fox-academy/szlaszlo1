@@ -212,13 +212,278 @@ namespace TODO
             else
             {
                 todos = new List<TODO>();
+                bool tovabb = true;
 
-
-                while (Console.ReadLine().ToLower()!="exit")
+                while (tovabb)
                 {
                     string command = Console.ReadLine();
-                    string arg = command.Substring(0, 2);
+                    string arg="";
+                    if(command.Length>=2)
+                    arg = command.Substring(0, 2);
+                    string parameter = "";
+                    string[] parameters=new string[0];
+                    if (command.ToLower()!="exit")
+                    {
+                        string restArg = "";
+                        if (command.Length>=4)
+                        {
+                            restArg = command.Substring(3);
+                        }
 
+                        List<string> tempParamsList = new List<string>();
+                        while (restArg != "")
+                        {
+                            
+                            if (restArg.IndexOf('"') == -1)
+                            {
+                                if (restArg.IndexOf(' ') == -1)
+                                {
+                                    parameter = restArg;
+                                    tempParamsList.Add(parameter);
+                                    parameters = new string[0];
+                                    restArg = "";
+                                }
+                                else
+                                {
+                                    parameters = restArg.Split(' ');
+                                    foreach (string param in parameters)
+                                    {
+                                        tempParamsList.Add(param);
+                                    }
+                                    restArg = "";
+                                }
+
+                            }
+                            else
+                            {
+                                if (restArg.Count(x => x == '"') % 2 == 0)
+                                {
+                                    if (restArg.IndexOf(' ') == -1)
+                                    {
+                                            parameter = restArg.Substring(1, restArg.Length - 2);
+                                            tempParamsList.Add(parameter);
+                                            restArg = "";
+                                    }
+                                    else
+                                    {
+
+                                        
+
+                                        if (restArg.IndexOf('"') != 0 && restArg.ElementAt(restArg.IndexOf('"') - 1) != ' ')
+                                            restArg = restArg.Substring(0, restArg.IndexOf('"')) + " " + restArg.Substring(restArg.IndexOf('"'), restArg.Length - restArg.IndexOf('"'));
+                                        string tempStr;
+                                        string tempSub = "";
+                                        if (restArg.IndexOf('"') < restArg.IndexOf(" "))
+                                        {
+                                            tempSub = restArg.Substring(1);
+                                            tempStr = tempSub.Substring(0, tempSub.IndexOf('"'));
+                                            tempParamsList.Add(tempStr);
+                                            if (tempSub.IndexOf('"') + 1 <= tempSub.Length - 1)
+                                            {
+                                                if (tempSub.ElementAt(tempSub.IndexOf('"') + 1) != ' ')
+                                                {
+                                                    tempSub = tempSub.Substring(0, tempSub.IndexOf('"') + 1) + ' ' + tempSub.Substring(tempSub.IndexOf('"'), tempSub.Length - tempSub.IndexOf('"'));
+                                                }
+                                                restArg = tempSub.Substring(tempSub.IndexOf('"') + 2, tempSub.Length - tempSub.IndexOf('"') - 2);
+                                            }
+                                            else
+                                            {
+                                                restArg = "";
+                                            }
+                                        }
+                                        else if (restArg.IndexOf(" ") == -1)
+                                        {
+                                            if (tempSub.ElementAt(tempSub.IndexOf('"') + 1) != ' ')
+                                            {
+                                                tempSub = tempSub.Substring(0, tempSub.IndexOf('"') + 1) + ' ' + tempSub.Substring(tempSub.IndexOf('"'), tempSub.Length - tempSub.IndexOf('"'));
+                                            }
+                                            restArg = tempSub.Substring(tempSub.IndexOf('"') + 2, tempSub.Length - tempSub.IndexOf('"') - 2);
+                                        }
+                                        else
+                                        {
+
+                                            tempStr = restArg.Substring(0, restArg.IndexOf(' '));
+                                            tempParamsList.Add(tempStr);
+                                            restArg = restArg.Substring(restArg.IndexOf(' ') + 1);
+                                        }
+                                    }
+                                    
+                                    parameter = "";
+
+
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Not right input format: Invalid number of \"");
+                                    restArg = "";
+                                }
+                            }
+                           // Console.WriteLine("itt tartunk");
+                        }
+                        parameters = tempParamsList.ToArray();
+                    }
+                    else
+                    {
+                        tovabb = false;
+                    }
+
+
+
+
+                    //string[] parameters;
+                    TODO2._0.WorkInList workInList = new TODO2._0.WorkInList();
+                    switch (arg)
+                    {
+                        case "-a":
+                            if (parameters.Length == 1)
+                            {
+                                TODO t = new TODO(parameters[0]);
+                                workInList.Save(t);
+                            }
+                            else if (parameters.Length != 0)
+                            {
+                                List<TODO> sa = new List<TODO>(); 
+                                foreach (string task in parameters)
+                                {
+                                    TODO t = new TODO(task);
+                                    sa.Add(t);
+                                }
+                                workInList.SaveAll(sa);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Can not add items to the list: no task text specified");
+                            }
+                            break;
+                        case "-l":
+                            if (parameters.Length==1)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(parameter);
+                                    try
+                                    {
+                                        workInList.Load(x);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    try
+                                    {
+                                        workInList.Load(parameter);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                            }
+                            else if(parameters.Length==0)
+                            {
+                                Console.WriteLine("List every task:");
+                                workInList.LoadAll();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Query failed: too much arguments specified, one or less needed (id- integer, string- text contains, nothing- for all)");
+                            }
+                            break;
+                        case "-c":
+                            if (parameters.Length==0)
+                            {
+                                Console.WriteLine("No id specified");
+                            }
+                            else if(parameters.Length==1)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(parameter);
+                                    try
+                                    {
+                                        workInList.CheckCompleted(x);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    Console.WriteLine($"Check failed: id must be an integer");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Check failed: Too much argument specified only one id needed (integer- id of task)");
+                            }
+                            break;
+                        case "-r":
+                            if (parameters.Length==0)
+                            {
+                                Console.WriteLine("Not right input format: You have to use id (integer) to remove an element");
+                            }
+                            else if(parameters.Length==1)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(parameter);
+                                    try
+                                    {
+                                        workInList.RemoveElement(x);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Not right input format: You have to use id (integer) to remove an element");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not right input format: You have to use only one parameter (integer as id)");
+                            }
+                            break;
+                        case "-u":
+                            if (parameters.Length<=1)
+                            {
+                                Console.WriteLine("Not enough parameters specified: you need to specify an id (integer) and a text (string) to update an element");
+                            }
+                            else if(parameters.Length==2)
+                            {
+                                try
+                                {
+                                    int x = Convert.ToInt32(parameters[0]);
+                                    try
+                                    {
+                                        workInList.UpdateElement(x, parameters[1]);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Update failed: first parameter must be an integer (id of the task)");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Two much argument specified, you should use \" to update to more than one word");
+                            }
+                            break;
+                        default:
+                            Console.WriteLine($"No such a keyword: {arg}");
+                            break;
+                    }
                 }
                 Console.WriteLine("Nem adott meg paramétert");
             }
