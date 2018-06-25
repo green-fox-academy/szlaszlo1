@@ -10,7 +10,6 @@ namespace ASPD01.Models
         private static long _id = 0;
         public long Id { get; set; }
         public string Content { get; set; }
-
         //public Greeting()
         //{
 

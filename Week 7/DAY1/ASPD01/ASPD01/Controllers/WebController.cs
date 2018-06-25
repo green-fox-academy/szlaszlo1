@@ -22,5 +22,11 @@ namespace ASPD01.Controllers
             var greeting = new Greeting(yourName);
             return View(greeting);
         }
+
+        [Route("greetingdiff")]
+        public IActionResult GreetDiffLang()
+        {
+            return View();
+        }
     }
 }
