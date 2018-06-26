@@ -10,6 +10,7 @@
     <title></title>
 </head>
 <body>
+    
     <table class="table table-bordered table-responsive table-hover">
         <th>ID</th>
         <th>Name</th>
@@ -18,9 +19,9 @@
         <th>Is king?</th>
         <th>Bad or Good guy?</th>
         @foreach (BankAccount item in Model)
-    {
+        {
         @if (item.King)
-    {
+        {
         <tr style="color:gold;">
 
             <td>@item.ID</td>
@@ -48,6 +49,15 @@ else
 }
 
     </table>
+    <form action="AddMoney" method="post">
+        <select name="ID">
+            @foreach (BankAccount item in Model)
+            {
+                <option value=@item.ID>@item.Name</option>
+            }
+        </select>
+        <button type="submit" value="submit">Get Money</button>
+    </form>
 </body>
 </html>
 

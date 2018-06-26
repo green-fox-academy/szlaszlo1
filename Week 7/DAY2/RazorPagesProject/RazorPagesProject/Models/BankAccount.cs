@@ -28,5 +28,17 @@ namespace RazorPagesProject.Models
             King=kings.Contains(name) ?true : false;
    
         }
+        public void GetMoney(int id)
+        {
+            if (King)
+            {
+                Balance += 100;
+            }
+            else
+            {
+                Balance += 10;
+            }
+
+        }
     }
 }

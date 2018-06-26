@@ -10,7 +10,16 @@ namespace RazorPagesProject.Controllers
     //[Route("BankAccountHome")]
     public class BankAccountHomeController : Controller
     {
-        public IActionResult Index()
+        //public static List<BankAccount> bal;
+        public static List<BankAccount> bal = new List<BankAccount>
+            {
+                new BankAccount("Zazu",1000,"Bird"),
+                new BankAccount("Timon",200,"Meerkat"),
+                new BankAccount("Pumba",100,"Warthod"),
+                new BankAccount("Zordon",4000,"Lion"),
+                new BankAccount("Mufasa",10000,"Lion")
+            };
+    public IActionResult Index()
         {
             return View();
         }
@@ -24,14 +33,15 @@ namespace RazorPagesProject.Controllers
 
         public IActionResult Animals()
         {
-            List<BankAccount> bal = new List<BankAccount> {
-                new BankAccount("Zazu",1000,"Bird"),
-                new BankAccount("Timon",200,"Meerkat"),
-                new BankAccount("Pumba",100,"Warthod"),
-                new BankAccount("Zordon",4000,"Lion"),
-                new BankAccount("Mufasa",10000,"Lion")
-            };
+
             return View(bal);
+        }
+
+        [HttpPost]
+        public IActionResult AddMoney(int id)
+        {
+            bal.ElementAt(id).GetMoney(id);
+            return RedirectToAction("Animals");
         }
     }
 }
