@@ -10,14 +10,15 @@
     <title></title>
 </head>
 <body>
-    <table style="border-collapse:collapse;border:1pt solid black;">
+    <table class="table table-bordered table-responsive table-hover">
         @foreach (BankAccount item in Model)
         {
         <tr>
-            <td style="border-collapse:collapse;border:1pt solid black;";>@item.ID</td>
-            <td style="border-collapse:collapse;border:1pt solid black;">@item.Name</td>
-            <td style="border-collapse:collapse;border:1pt solid black;">@item.Balance @item.Currency</td>
-            <td style="border-collapse:collapse;border:1pt solid black;">@item.AnimalType</td>
+            <td>@item.ID</td>
+            <td>@item.Name</td>
+            <td>@item.Balance @item.Currency</td>
+            <td>@item.AnimalType</td>
+            <td>@item.King</td>
         </tr>
         }
 
