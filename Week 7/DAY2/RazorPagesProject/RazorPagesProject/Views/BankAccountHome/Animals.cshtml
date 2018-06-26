@@ -11,16 +11,39 @@
 </head>
 <body>
     <table class="table table-bordered table-responsive table-hover">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Balance (Currency)</th>
+        <th>Animal type</th>
+        <th>Is king?</th>
         @foreach (BankAccount item in Model)
-        {
-        <tr>
+    {
+        @if (item.King)
+    {
+        <tr style="color:gold;">
+
             <td>@item.ID</td>
             <td>@item.Name</td>
             <td>@item.Balance @item.Currency</td>
             <td>@item.AnimalType</td>
             <td>@item.King</td>
+
+
         </tr>
-        }
+}
+else
+{
+    <tr>
+
+        <td>@item.ID</td>
+        <td>@item.Name</td>
+        <td>@item.Balance @item.Currency</td>
+        <td>@item.AnimalType</td>
+        <td>@item.King</td>
+
+    </tr>
+}
+}
 
     </table>
 </body>
