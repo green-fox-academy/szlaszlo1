@@ -10,17 +10,17 @@
     <title></title>
 </head>
 <body>
-    <table>
+    <table style="border-collapse:collapse;border:1pt solid black;">
         @foreach (BankAccount item in Model)
         {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Balance @item.Currency</td>
-            <td>@item.AnimalType</td>
+        <tr >
+            <td style="border-collapse:collapse;border:1pt solid black;">@item.Name</td>
+            <td style="border-collapse:collapse;border:1pt solid black;">@item.Balance @item.Currency</td>
+            <td style="border-collapse:collapse;border:1pt solid black;">@item.AnimalType</td>
         </tr>
         }
 
-    </table>>
+    </table>
 </body>
 </html>
 

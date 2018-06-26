@@ -16,7 +16,7 @@ namespace RazorPagesProject.Models
         {
             Name = name;
             Balance =balance;
-            AnimalType = AnimalType;
+            AnimalType = animaltype;
             Currency = currency;
         }
     }
