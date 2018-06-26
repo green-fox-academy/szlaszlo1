@@ -16,6 +16,7 @@
         <th>Balance (Currency)</th>
         <th>Animal type</th>
         <th>Is king?</th>
+        <th>Bad or Good guy?</th>
         @foreach (BankAccount item in Model)
     {
         @if (item.King)
@@ -27,21 +28,22 @@
             <td>@item.Balance @item.Currency</td>
             <td>@item.AnimalType</td>
             <td>@item.King</td>
+            <td>@item.GoodGuy</td>
 
 
         </tr>
 }
 else
 {
-    <tr>
+        <tr>
 
-        <td>@item.ID</td>
-        <td>@item.Name</td>
-        <td>@item.Balance @item.Currency</td>
-        <td>@item.AnimalType</td>
-        <td>@item.King</td>
-
-    </tr>
+            <td>@item.ID</td>
+            <td>@item.Name</td>
+            <td>@item.Balance @item.Currency</td>
+            <td>@item.AnimalType</td>
+            <td>@item.King</td>
+            <td>@item.GoodGuy</td>
+        </tr>
 }
 }
 

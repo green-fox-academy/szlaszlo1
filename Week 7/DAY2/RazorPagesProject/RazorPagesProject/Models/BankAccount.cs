@@ -15,6 +15,7 @@ namespace RazorPagesProject.Models
         public string AnimalType { get; set; }
         public string Currency { get; set; }
         public bool King { get; set; }
+        public string GoodGuy { get; set; }
 
         public BankAccount(string name,double balance,string animaltype, string currency="Zebra")
         {
@@ -23,14 +24,9 @@ namespace RazorPagesProject.Models
             Balance =balance;
             AnimalType = animaltype;
             Currency = currency;
-            if (kings.Contains(name))
-            {
-                King = true;
-            }
-            else
-            {
-                King = false;
-            }
+            GoodGuy = (name.Equals("Zordon")) ? "Bad Guy" : "Good one";
+            King=kings.Contains(name) ?true : false;
+   
         }
     }
 }
