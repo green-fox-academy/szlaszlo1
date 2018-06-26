@@ -1,0 +1,26 @@
+﻿@model List<BankAccount>
+@{
+    ViewData["Title"] = "Animals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Animals</h2>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <table>
+        @foreach (BankAccount item in Model)
+        {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Balance @item.Currency</td>
+            <td>@item.AnimalType</td>
+        </tr>
+        }
+
+    </table>>
+</body>
+</html>
+

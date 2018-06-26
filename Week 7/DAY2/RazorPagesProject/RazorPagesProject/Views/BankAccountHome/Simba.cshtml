@@ -1,0 +1,20 @@
+﻿@model BankAccount
+@{
+    ViewData["Title"] = "Simba";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>Simba</h2>
+    @{
+        <p>@Model.Name</p>
+        <p>@string.Format("{0:N2}", Model.Balance) @Model.Currency</p>
+    }
+</body>
+</html>
+
+
+
