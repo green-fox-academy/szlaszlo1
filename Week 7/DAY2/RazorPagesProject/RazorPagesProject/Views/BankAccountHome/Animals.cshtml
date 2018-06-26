@@ -17,12 +17,12 @@
         <th>Balance (Currency)</th>
         <th>Animal type</th>
         <th>Is king?</th>
-        <th>Bad or Good guy?</th>
+        <th>Good guy?</th>
         @foreach (BankAccount item in Model)
         {
         @if (item.King)
         {
-        <tr style="color:gold;">
+        <tr style="background-color:gold;">
 
             <td>@item.ID</td>
             <td>@item.Name</td>
@@ -50,13 +50,51 @@ else
 
     </table>
     <form action="AddMoney" method="post">
-        <select name="ID">
+        <fieldset>
+            <legend>Add money to specific character</legend>
+       <table>
+           <tr>
+               <td>
+                   <select name="ID">
             @foreach (BankAccount item in Model)
-            {
-                <option value=@item.ID>@item.Name</option>
-            }
+              {
+            <option value=@item.ID>@item.Name</option>
+              }
         </select>
-        <button type="submit" value="submit">Get Money</button>
+               </td>
+           
+        <td><button type="submit" value="submit">Get Money</button></td>
+           </tr>
+           </table>
+            </fieldset>
+    </form>
+    <form action="AddBankAccount" method="post">
+        <fieldset>
+            <legend>Add new character</legend>
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" name="Name"></td>
+            </tr>
+            <tr>
+                <td>Balance:</td>
+                <td><input type="number" name="Balance"></td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td><input type="text" name="AnimalType"></td>
+            </tr>
+                <tr>
+                    <td>Is King?</td>
+                <td><input type="checkbox" name="King" value="true"></td>
+            </tr>
+            <tr>
+                <td>Good guy?</td>
+                <td><input type="checkbox" name="GoodGuy" value="true"></td>
+                </tr>
+        </table>
+        <button type="submit" value="submit">Add new bank account</button>
+            </fieldset>
     </form>
 </body>
 </html>

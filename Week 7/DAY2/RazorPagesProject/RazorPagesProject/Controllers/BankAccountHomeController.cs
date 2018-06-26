@@ -43,5 +43,10 @@ namespace RazorPagesProject.Controllers
             bal.ElementAt(id).GetMoney(id);
             return RedirectToAction("Animals");
         }
+        public IActionResult AddBankAccount(BankAccount ba)
+        {
+            bal.Add(ba);
+            return RedirectToAction("Animals");
+        }
     }
 }
