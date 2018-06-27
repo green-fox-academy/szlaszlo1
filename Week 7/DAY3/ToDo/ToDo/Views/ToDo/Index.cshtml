@@ -3,18 +3,16 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
 </head>
 <body>
     <table class="table table-bordered table-responsive table-hover">
-        <caption>To Do List</caption>
-        <thead style="background-color:#2e7559;color:white">
+        <caption style="font-size:20px;color:black;">To Do List</caption>
+        <thead style="background-color:black;color:white">
             <tr>
-                <th scope="col">ID</th>
+
                 <th scope="col">What to do?</th>
                 <th scope="col">Created</th>
                 <th scope="col">Finished?</th>
@@ -26,7 +24,7 @@
             if (t.Finished)
             {
                 <tr style="background-color:green;">
-                    <td>@t.ID</td>
+
                     <td>@t.Text</td>
                     <td>@t.CreatedAt</td>
                     <td>@t.Finished</td>
@@ -36,7 +34,7 @@
             else if (t.Urgent)
             {
                 <tr style="background-color:red;">
-                    <td>@t.ID</td>
+
                     <td>@t.Text</td>
                     <td>@t.CreatedAt</td>
                     <td>@t.Finished</td>
@@ -46,7 +44,7 @@
             else
             {
                 <tr>
-                    <td>@t.ID</td>
+
                     <td>@t.Text</td>
                     <td>@t.CreatedAt</td>
                     <td>@t.Finished</td>
@@ -84,7 +82,7 @@
                 {
                     if (!td.Finished)
                     {
-                    <option value=@td.ID>@td.Text</option>
+                        <option value=@td.ID>@td.Text</option>
                     }
                 }
             </select>
@@ -99,7 +97,7 @@
                 {
                     if (!td.Urgent)
                     {
-                    <option value=@td.ID>@td.Text</option>
+                        <option value=@td.ID>@td.Text</option>
                     }
                 }
             </select>
@@ -116,6 +114,12 @@
                 }
             </select>
             <button type="submit">Delete</button>
+        </fieldset>
+    </form>
+    <form action="SaveAll" method="post">
+        <fieldset>
+            <legend>Save all element</legend>
+            <button type="submit">Save</button>
         </fieldset>
     </form>
 </body>

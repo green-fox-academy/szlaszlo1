@@ -13,5 +13,7 @@ namespace ToDo.Services
         void DeleteToDo(int id);
         void UrgentToDo(int id);
         List<Models.ToDo> GetToDos();
+        void SaveAll();
+        void LoadAll();
     }
 }

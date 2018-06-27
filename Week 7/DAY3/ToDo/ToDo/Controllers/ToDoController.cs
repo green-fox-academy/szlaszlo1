@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Services;
 using ToDo.Models;
+using Newtonsoft.Json;
 
 namespace ToDo.Controllers
 {
@@ -18,6 +19,7 @@ namespace ToDo.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {
+            todoapp.LoadAll();
             return View(todoapp.GetToDos());
         }
         [HttpPost("AddNewElement")]
@@ -46,6 +48,13 @@ namespace ToDo.Controllers
         public IActionResult SetUrgent(int id)
         {
             todoapp.UrgentToDo(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("SaveAll")]
+        public IActionResult SaveAll()
+        {
+            todoapp.SaveAll();
             return RedirectToAction("Index");
         }
     }

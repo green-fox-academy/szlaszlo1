@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Models;
@@ -39,6 +41,21 @@ namespace ToDo.Services
         public void UrgentToDo(int id)
         {
             todo.Where(x => x.ID == id).ToArray()[0].Urgent = true;
+        }
+
+        public void SaveAll()
+        {
+            string json = JsonConvert.SerializeObject(todo.ToArray());
+            System.IO.File.WriteAllText(@"jsonData.json", json);
+        }
+        public void LoadAll()
+        {
+            if (File.Exists("jsonData.json"))
+            {
+                string json = File.ReadAllText(@"jsonData.json");
+                todo = JsonConvert.DeserializeObject<List<Models.ToDo>>(json);
+            }
+            
         }
     }
 }
