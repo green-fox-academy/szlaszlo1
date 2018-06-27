@@ -41,5 +41,12 @@ namespace ToDo.Controllers
             todoapp.DeleteToDo(id);
             return RedirectToAction("Index");
         }
+
+        [HttpPost("SetUrgent")]
+        public IActionResult SetUrgent(int id)
+        {
+            todoapp.UrgentToDo(id);
+            return RedirectToAction("Index");
+        }
     }
 }

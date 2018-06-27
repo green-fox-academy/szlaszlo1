@@ -23,7 +23,7 @@ namespace ToDo.Services
         }
         public void CheckToDo(int id)
         {
-            todo.Where(x => x.ID == id).ToList().ForEach(y => y.Finished = true);
+            todo.Where(x => x.ID == id).ToArray()[0].Finished = true;
         }
 
         public void DeleteToDo(int id)
@@ -38,7 +38,7 @@ namespace ToDo.Services
 
         public void UrgentToDo(int id)
         {
-            throw new NotImplementedException();
+            todo.Where(x => x.ID == id).ToArray()[0].Urgent = true;
         }
     }
 }

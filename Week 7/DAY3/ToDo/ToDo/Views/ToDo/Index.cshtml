@@ -12,7 +12,7 @@
 <body>
     <table class="table table-bordered table-responsive table-hover">
         <caption>To Do List</caption>
-        <thead>
+        <thead style="background-color:#2e7559;color:white">
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">What to do?</th>
@@ -22,15 +22,41 @@
             </tr>
         </thead>
         @foreach (ToDo t in Model)
-    {
-        <tr>
-            <td>@t.ID</td>
-            <td>@t.Text</td>
-            <td>@t.CreatedAt</td>
-        <td>@t.Finished</td>
-    <td>@t.Urgent</td>
-    </tr>
-}
+        {
+            if (t.Finished)
+            {
+                <tr style="background-color:green;">
+                    <td>@t.ID</td>
+                    <td>@t.Text</td>
+                    <td>@t.CreatedAt</td>
+                    <td>@t.Finished</td>
+                    <td>@t.Urgent</td>
+                </tr>
+            }
+            else if (t.Urgent)
+            {
+                <tr style="background-color:red;">
+                    <td>@t.ID</td>
+                    <td>@t.Text</td>
+                    <td>@t.CreatedAt</td>
+                    <td>@t.Finished</td>
+                    <td>@t.Urgent</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@t.ID</td>
+                    <td>@t.Text</td>
+                    <td>@t.CreatedAt</td>
+                    <td>@t.Finished</td>
+                    <td>@t.Urgent</td>
+                </tr>
+            }
+
+
+
+        }
     </table>
     <form action="AddNewElement" method="post">
         <fieldset>
@@ -49,30 +75,48 @@
                 </tr>
             </table>
         </fieldset>
-        </form>
+    </form>
     <form action="CheckElement" method="post">
         <fieldset>
             <legend>Check Element</legend>
             <select name="id">
                 @foreach (ToDo td in Model)
-                 {
-                 <option value=@td.ID>@td.Text</option>
-                 }
+                {
+                    if (!td.Finished)
+                    {
+                    <option value=@td.ID>@td.Text</option>
+                    }
+                }
             </select>
             <button type="submit">Check</button>
         </fieldset>
     </form>
+    <form action="SetUrgent" method="post">
+        <fieldset>
+            <legend>Set Urgent</legend>
+            <select name="id">
+                @foreach (ToDo td in Model)
+                {
+                    if (!td.Urgent)
+                    {
+                    <option value=@td.ID>@td.Text</option>
+                    }
+                }
+            </select>
+            <button type="submit">Set Urgent</button>
+        </fieldset>
+    </form>
     <form action="RemoveElement" method="post">
         <fieldset>
-            <legend>Delet element</legend>
-        <select name="id">
-        @foreach (ToDo td in Model)
-        {
-            <option value=@td.ID>@td.Text</option>
-        }
-        </select>
-        <button type="submit">Delete</button>
-       </fieldset>
+            <legend>Delete element</legend>
+            <select name="id">
+                @foreach (ToDo td in Model)
+                {
+                    <option value=@td.ID>@td.Text</option>
+                }
+            </select>
+            <button type="submit">Delete</button>
+        </fieldset>
     </form>
 </body>
 </html>
