@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ToDo.Services;
 
 namespace ToDo
 {
@@ -22,6 +23,7 @@ namespace ToDo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<IToDoManipulate, ToDoManipulate>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
