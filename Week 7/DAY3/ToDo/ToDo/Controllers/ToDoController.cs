@@ -19,7 +19,6 @@ namespace ToDo.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {
-            todoapp.LoadAll();
             return View(todoapp.GetToDos());
         }
         [HttpPost("AddNewElement")]
@@ -55,6 +54,14 @@ namespace ToDo.Controllers
         public IActionResult SaveAll()
         {
             todoapp.SaveAll();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("LoadAll")]
+        public IActionResult LoadAll()
+        {
+
+            todoapp.LoadAll();
             return RedirectToAction("Index");
         }
     }

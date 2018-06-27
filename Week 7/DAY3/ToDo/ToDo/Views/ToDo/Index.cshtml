@@ -23,18 +23,18 @@
         {
             if (t.Finished)
             {
-                <tr style="background-color:green;">
-
-                    <td>@t.Text</td>
-                    <td>@t.CreatedAt</td>
-                    <td>@t.Finished</td>
-                    <td>@t.Urgent</td>
-                </tr>
+        <tr style="background-color:green;">
+            <td>@t.ID</td>
+            <td>@t.Text</td>
+            <td>@t.CreatedAt</td>
+            <td>@t.Finished</td>
+            <td>@t.Urgent</td>
+        </tr>
             }
             else if (t.Urgent)
             {
                 <tr style="background-color:red;">
-
+                    <td>@t.ID</td>
                     <td>@t.Text</td>
                     <td>@t.CreatedAt</td>
                     <td>@t.Finished</td>
@@ -44,7 +44,7 @@
             else
             {
                 <tr>
-
+                    <td>@t.ID</td>
                     <td>@t.Text</td>
                     <td>@t.CreatedAt</td>
                     <td>@t.Finished</td>
@@ -95,7 +95,7 @@
             <select name="id">
                 @foreach (ToDo td in Model)
                 {
-                    if (!td.Urgent)
+                    if (!td.Urgent && !td.Finished)
                     {
                         <option value=@td.ID>@td.Text</option>
                     }
@@ -120,6 +120,12 @@
         <fieldset>
             <legend>Save all element</legend>
             <button type="submit">Save</button>
+        </fieldset>
+    </form>
+    <form action="LoadAll" method="post">
+        <fieldset>
+            <legend>Load all element</legend>
+            <button type="submit">Load</button>
         </fieldset>
     </form>
 </body>
