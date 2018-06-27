@@ -8,5 +8,6 @@ namespace GreetSomeone.Services
     public interface IGreetName
     {
         string GetName();
+        void SetName(string s);
     }
 }

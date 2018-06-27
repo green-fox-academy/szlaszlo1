@@ -23,15 +23,17 @@ namespace GreetSomeone.Controllers
         }
 
         [HttpPost("/")]
-        public IActionResult Valami()
+        public IActionResult Index(string yourName)
         {
+            greet.SetName(yourName);
             return RedirectToAction("greet");
         }
 
         [HttpGet("greet")]
         public IActionResult Greet()
         {
-            return View(greet.GetName());
+            
+            return View("greet",greet.GetName());
         }
     }
 }

@@ -7,10 +7,14 @@ namespace GreetSomeone.Services
 {
     public class GreetName : IGreetName
     {
-        private string yourName;
+        public string yourName="Vmi";
         public string GetName()
         {
             return yourName;
+        }
+        public void SetName(string s)
+        {
+            yourName = s;
         }
     }
 }
