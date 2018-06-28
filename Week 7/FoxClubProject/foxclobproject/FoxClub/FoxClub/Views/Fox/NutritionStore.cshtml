@@ -1,0 +1,37 @@
+﻿@model List<Nutrition>
+@{
+    ViewData["Title"] = "NutritionStore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>NutritionStore</h2>
+
+<form action="/nutritionStore" method="post">
+Food:
+    @if (Model != null)
+    {
+    <select name="kaja">
+        @foreach (Nutrition kaja in Model)
+        {
+            if (kaja.IsFood)
+            {<option value=@kaja.Name>@kaja.Name</option>}
+        }
+    </select>
+        Drink:
+    <select name="pia">
+        @foreach (Nutrition pia in Model)
+        {
+            if (!pia.IsFood)
+            {
+            <option value=@pia.Name>@pia.Name</option>}
+        }
+    </select>
+    <button type="submit">Feed</button>
+    }
+</form>
+<h3>Add new nutrition</h3>
+<form action="/newNutrition" method="post">
+    Name: <input type="text" name="Name"><br/>
+    Is it food?<input type="checkbox" name="IsFood" value="true">
+    <button type="submit">Add new nutrition</button>
+ </form>

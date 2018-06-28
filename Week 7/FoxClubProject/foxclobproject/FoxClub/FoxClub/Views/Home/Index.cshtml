@@ -6,16 +6,31 @@
 
 <h2>Index</h2>
 @{
-    string food = (Model.Food is null) ? "no food" : Model.Food;
-    string drink = (Model.Drink is null) ? "no drink" : Model.Drink;
+    string food;
+    string drink;
+    if (Model.Food != null)
+    {
+        food = Model.Food;
+    }
+    else
+    {
+        food = "no food";
+    }
+    if (Model.Drink != null)
+    {
+        drink = Model.Drink;
+    }
+    else
+    {
+        drink = "no drink";
+    }
     int numberOfTricks = (Model.Tricks is null) ? 0 : Model.Tricks.Count;
 
 }
-<a>Information</a><br />
 <img src="~/images/greenfox.png">
 <p>This is @Model.Name . Currently living on @food and @drink. Knows @numberOfTricks tricks</p>
 <h1>Known tricks</h1>
-@if (@Model.Tricks is null || Model.Tricks.Count==0)
+@if (@Model.Tricks is null || Model.Tricks.Count == 0)
 {
     <p>You know no tricks yet. Go and learn some</p>
 }
@@ -23,9 +38,9 @@ else
 {
     <ul>
         @foreach (string item in Model.Tricks)
-    {
-        <li>@item</li>
-}
+        {
+            <li>@item</li>
+        }
 
     </ul>
 }

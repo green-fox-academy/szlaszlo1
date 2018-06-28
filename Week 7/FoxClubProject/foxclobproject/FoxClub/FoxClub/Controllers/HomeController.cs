@@ -39,7 +39,7 @@ namespace FoxClub.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("/trickCenter")]
+        
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

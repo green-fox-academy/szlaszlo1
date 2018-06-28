@@ -9,6 +9,7 @@ namespace FoxClub.Services
     public class FoxControll : IFoxControll
     {
         List<Fox> foxCollection = new List<Fox>();
+        List<Nutrition> nutritionList = new List<Nutrition>();
         Fox currentFox;
         public void AddFox(string name)
         {
@@ -31,6 +32,26 @@ namespace FoxClub.Services
         public Fox GetFox()
         {
             return currentFox;
+        }
+
+        public List<Nutrition> GetNutritionList()
+        {
+            return nutritionList;
+        }
+
+        public void NewNutriotion(Nutrition name)
+        {
+            nutritionList.Add(name);
+        }
+
+        public void SetDrink(string pia)
+        {
+            currentFox.Drink = pia;
+        }
+
+        public void SetFood(string kaja)
+        {
+            currentFox.Food = kaja;
         }
     }
 }
