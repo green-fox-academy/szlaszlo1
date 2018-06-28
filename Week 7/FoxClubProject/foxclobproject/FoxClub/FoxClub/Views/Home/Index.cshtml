@@ -1,0 +1,31 @@
+﻿@model Fox
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@{
+    string food = (Model.Food is null) ? "no food" : Model.Food;
+    string drink = (Model.Drink is null) ? "no drink" : Model.Drink;
+    int numberOfTricks = (Model.Tricks is null) ? 0 : Model.Tricks.Count;
+
+}
+<a>Information</a><br />
+<img src="~/images/greenfox.png">
+<p>This is @Model.Name . Currently living on @food and @drink. Knows @numberOfTricks tricks</p>
+<h1>Known tricks</h1>
+@if (@Model.Tricks is null || Model.Tricks.Count==0)
+{
+    <p>You know no tricks yet. Go and learn some</p>
+}
+else
+{
+    <ul>
+        @foreach (string item in Model.Tricks)
+    {
+        <li>@item</li>
+}
+
+    </ul>
+}
