@@ -10,6 +10,7 @@ namespace FoxClub.Services
     {
         List<Fox> foxCollection = new List<Fox>();
         List<Nutrition> nutritionList = new List<Nutrition>();
+        List<string> tricks = new List<string>() {"write HTML", "Read from JSon", "Write to JSon" };
         Fox currentFox;
         public void AddFox(string name)
         {
@@ -39,6 +40,13 @@ namespace FoxClub.Services
             return nutritionList;
         }
 
+        public void LearnTrick(string trick)
+        {
+            if (currentFox.Tricks == null)
+                currentFox.Tricks = new List<string>();
+            currentFox.Tricks.Add(trick);
+        }
+
         public void NewNutriotion(Nutrition name)
         {
             nutritionList.Add(name);
@@ -52,6 +60,23 @@ namespace FoxClub.Services
         public void SetFood(string kaja)
         {
             currentFox.Food = kaja;
+        }
+
+        public List<string> ShowPossibleTricks()
+        {
+            List<string> possible = new List<string>();
+            foreach(string trick in tricks)
+            {
+                possible.Add(trick);
+            }
+            if (currentFox.Tricks != null)
+            {
+                foreach (string item in currentFox.Tricks)
+                {
+                    possible.Remove(item);
+                }
+            }
+            return possible;
         }
     }
 }

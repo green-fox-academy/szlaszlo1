@@ -58,5 +58,19 @@ namespace FoxClub.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Route("/trickCenter")]
+        public IActionResult TrickCenter()
+        {
+            
+            return View(foxListControll.ShowPossibleTricks());
+        }
+
+        [HttpPost("/trickCenter")]
+        public IActionResult TrickLearning(string trick)
+        {
+            foxListControll.LearnTrick(trick);
+            return RedirectToAction("Index");
+        }
     }
 }

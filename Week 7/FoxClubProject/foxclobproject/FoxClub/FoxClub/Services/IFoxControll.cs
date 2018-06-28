@@ -10,10 +10,12 @@ namespace FoxClub.Services
     {
         void AddFox(string name);
         Fox GetFox();
-
+        
         void SetFood(string kaja);
         void SetDrink(string pia);
         List<Nutrition> GetNutritionList();
         void NewNutriotion(Nutrition name);
+        void LearnTrick(string trick);
+        List<string> ShowPossibleTricks();
     }
 }
