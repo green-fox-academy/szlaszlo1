@@ -39,5 +39,26 @@ namespace FoxClub.Controllers
             foxListControll.NewNutriotion(nut);
             return RedirectToAction("NutritionStore");
         }
+
+        [Route("/trickCenter")]
+        public IActionResult TrickCenter()
+        {
+
+            return View(foxListControll.ShowPossibleTricks());
+        }
+
+        [HttpPost("/trickCenter")]
+        public IActionResult TrickLearning(string trick)
+        {
+            foxListControll.LearnTrick(trick);
+            return RedirectToAction("Index", "Home",new { area = "" });
+        }
+
+        [HttpGet("/actionHistory")]
+        public IActionResult ActionHistory()
+        {
+            return View(foxListControll.GetActionHistory());
+        }
+
     }
 }

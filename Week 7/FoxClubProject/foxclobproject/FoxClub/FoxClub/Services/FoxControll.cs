@@ -20,12 +20,15 @@ namespace FoxClub.Services
                 {
                     foxCollection.Add(new Fox { Name = name });
                     currentFox = foxCollection.Where(x => x.Name == name).ToArray()[0];
+                    currentFox.HistoryElement = new Stack<string>();
+                    currentFox.HistoryElement.Push($"{DateTime.Now} : {currentFox.Name} was born");
                 }
                 else
                 {
                     currentFox = foxCollection.Where(x => x.Name == name).ToArray()[0];
                 }
             }
+            
         }
 
        
@@ -40,12 +43,6 @@ namespace FoxClub.Services
             return nutritionList;
         }
 
-        public void LearnTrick(string trick)
-        {
-            if (currentFox.Tricks == null)
-                currentFox.Tricks = new List<string>();
-            currentFox.Tricks.Add(trick);
-        }
 
         public void NewNutriotion(Nutrition name)
         {
@@ -54,29 +51,38 @@ namespace FoxClub.Services
 
         public void SetDrink(string pia)
         {
+            if (currentFox.Drink != pia)
+            currentFox.HistoryElement.Push($"{DateTime.Now} : Drink has been changed from: {currentFox.Drink} to: {pia}");
             currentFox.Drink = pia;
         }
 
         public void SetFood(string kaja)
         {
+            if (currentFox.Food != kaja)
+                currentFox.HistoryElement.Push($"{DateTime.Now} : Food has been changed from: {currentFox.Food} to: {kaja}");
             currentFox.Food = kaja;
         }
 
         public List<string> ShowPossibleTricks()
         {
-            List<string> possible = new List<string>();
-            foreach(string trick in tricks)
-            {
-                possible.Add(trick);
-            }
             if (currentFox.Tricks != null)
-            {
-                foreach (string item in currentFox.Tricks)
-                {
-                    possible.Remove(item);
-                }
-            }
-            return possible;
+                return tricks.Except(currentFox.Tricks).ToList();
+            else
+                return tricks;
+        }
+        public void LearnTrick(string trick)
+        {
+            if (currentFox.Tricks == null)
+                currentFox.Tricks = new List<string>();
+            
+            currentFox.HistoryElement.Push($"{DateTime.Now} : Learned to: {trick}");
+
+            currentFox.Tricks.Add(trick);
+        }
+
+        public Stack<string> GetActionHistory()
+        {
+            return currentFox.HistoryElement;
         }
     }
 }

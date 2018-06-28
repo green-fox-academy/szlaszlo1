@@ -1,0 +1,16 @@
+﻿@model Stack<string>
+@{
+    ViewData["Title"] = "ActionHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ActionHistory</h2>
+
+@{int i = 0;}
+
+@while (@i < 5 && Model.Count>i)
+{
+    <p>@Model.ElementAt(i)</p>
+    i++;
+}
+
