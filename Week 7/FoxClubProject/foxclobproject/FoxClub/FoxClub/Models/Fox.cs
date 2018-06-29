@@ -12,5 +12,8 @@ namespace FoxClub.Models
         public Nutrition Food { get; set; }
         public Nutrition Drink { get; set; }
         public Stack<string> HistoryElement { get; set; }
+        public bool IsDead { get; set; }
+        public DateTime Birth { get; set; }
+        public string SelectedTrick { get; set; }
     }
 }

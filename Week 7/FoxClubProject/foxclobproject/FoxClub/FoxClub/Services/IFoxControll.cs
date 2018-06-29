@@ -19,5 +19,8 @@ namespace FoxClub.Services
         List<string> ShowPossibleTricks();
 
         Stack<string> GetActionHistory();
+
+        void ReduceNutrition();
+        void CheckAlive();
     }
 }

@@ -10,7 +10,7 @@ namespace FoxClub.Services
     {
         List<Fox> foxCollection = new List<Fox>();
         List<Nutrition> nutritionList = new List<Nutrition>();
-        List<string> tricks = new List<string>() {"write HTML", "Read from JSon", "Write to JSon" };
+        List<string> tricks = new List<string>() {"write HTML", "Read from JSon", "Write to JSon","Rabbit hunting","Thieving","Get Rabies" };
         Fox currentFox;
         public void AddFox(string name)
         {
@@ -18,21 +18,24 @@ namespace FoxClub.Services
             {
                 if (foxCollection.Where(x => x.Name == name).ToArray().Count() == 0)
                 {
-                    foxCollection.Add(new Fox { Name = name });
+                    foxCollection.Add(new Fox { Name = name,IsDead=false,Birth=DateTime.Now });
                     currentFox = foxCollection.Where(x => x.Name == name).ToArray()[0];
                     currentFox.HistoryElement = new Stack<string>();
-                    currentFox.HistoryElement.Push($"{DateTime.Now} : {currentFox.Name} was born");
+                    currentFox.HistoryElement.Push($"{currentFox.Birth} : {currentFox.Name} was born");
                 }
                 else
                 {
                     currentFox = foxCollection.Where(x => x.Name == name).ToArray()[0];
                 }
+                
+               
+            }
+            if (!currentFox.IsDead)
+            {
+                ReduceNutrition();
             }
             
         }
-
-       
-
         public Fox GetFox()
         {
             return currentFox;
@@ -90,6 +93,30 @@ namespace FoxClub.Services
             currentFox.Food.AddedTime = DateTime.Now;
         }
 
+        public void ReduceNutrition()
+        {
+            if (currentFox.Food != null || currentFox.Drink != null)
+            { 
+            if (currentFox.Food != null)
+                currentFox.Food.Portion -= (int)DateTime.Now.Subtract(currentFox.Food.AddedTime).TotalMinutes;
+                
+            if (currentFox.Drink != null && !currentFox.IsDead)
+                currentFox.Drink.Portion -= (int)DateTime.Now.Subtract(currentFox.Drink.AddedTime).TotalMinutes;
+
+
+                CheckAlive();
+            }
+            else
+            {
+                currentFox.IsDead = ((int)DateTime.Now.Subtract(currentFox.Birth).TotalMinutes >= 5) ? true : false;
+            }
+        }
+
+        public void CheckAlive()
+        {
+            currentFox.IsDead = (currentFox.Drink.Portion <= 0 || currentFox.Food.Portion <= 0) ? true : false;
+
+        }
         public List<string> ShowPossibleTricks()
         {
             if (currentFox != null)

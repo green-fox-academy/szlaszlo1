@@ -19,7 +19,7 @@
                     <option value=@kaja.Name>@kaja.Name</option>}
             }
         </select>
-        <label>Portion:</label><input name="portkaja" type="number" max="10" min="1" />
+        <label>Portion:</label><input name="portkaja" type="number" max="10" min="1" required/>
         <label>Drink:</label>
         <select name="pia">
             @foreach (Nutrition pia in Model)
@@ -29,7 +29,7 @@
                     <option value=@pia.Name>@pia.Name</option>}
             }
         </select>
-        <label>Portion:</label><input type="number" name="portpia" max="10" min="1" />
+        <label>Portion:</label><input type="number" name="portpia" max="10" min="1" required />
         <button type="submit">Feed</button>
     }
 </form>

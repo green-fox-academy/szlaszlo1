@@ -27,26 +27,80 @@
     int numberOfTricks = (Model.Tricks is null) ? 0 : Model.Tricks.Count;
 
 }
-<img src="~/images/greenfox.png">
-<p>This is @Model.Name . Currently living on @food and @drink. Knows @numberOfTricks tricks</p>
-<h1>Known tricks</h1>
-@if (@Model.Food.Portion != 0 && Model.Drink.Portion != 0)
+@if (Model.IsDead)
 {
-<table>
-    <tr>
-        <td>Food:</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>Drink</td>
-        <td></td>
-    </tr>
-</table>
+    <img src="~/images/deadfox.png" />
 }
 else
 {
-        <p>You have no more portion of food and drink left.</p>
+    switch (Model.SelectedTrick)
+    {
+        case "default":
+            <img src="~/images/greenfox.png" />
+            break;
+        case "Hacking":
+            <img src="~/images/hack.gif" />
+            break;
+        case "Take a selfie":
+            <img src="~/images/selfie.jpeg" />
+            break;
+        case "Hunting":
+            <img src="~/images/huntingsnow.gif" />
+            break;
+        case "Vlogging":
+            <img src="~/images/vlog.gif" />
+            break;
+        case "Thieving":
+            <img src="~/images/thieving.gif" />
+            break;
+        case "Drinking coffee":
+            <img src="~/images/coffee.gif" />
+        default:
+            break;
+    }
+
 }
+<p>This is @Model.Name . Currently living on @food and @drink. Knows @numberOfTricks tricks</p>
+
+@if (@Model.Food != null || Model.Drink != null)
+{
+    <h1>Nutrition</h1>
+    <table>
+        @if (Model.Food.Portion >= 0)
+        {
+            <tr>
+                <td>Food:</td>
+                <td>
+                    @for (int i = 0; i < Model.Food.Portion; i++)
+                    {
+                        <img src="~/images/food.png" height="30">
+                    }
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>You have no more portion of food left.</tr>
+        }
+        @if (Model.Drink.Portion >= 0)
+        {
+            <tr>
+                <td>Drink</td>
+                <td>
+                    @for (int i = 0; i < Model.Drink.Portion; i++)
+                    {
+                        <img src="~/images/drink.png" height="30">
+                    }
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>You have no more portion of drink left.</tr>
+        }
+    </table>
+}
+<h1>Known tricks</h1>
 @if (@Model.Tricks is null || Model.Tricks.Count == 0)
 {
     <p>You know no tricks yet. Go and learn some</p>
@@ -60,4 +114,16 @@ else
         }
 
     </ul>
+}
+@if (Model.Tricks != null || Model.Tricks.Count != 0)
+{
+    <form action="/SelectTrick" method="post">
+        <select name="selectedTrick">
+            <option value="default">Default</option>
+            @foreach (string trick in Model.Tricks)
+            {
+                <option value=@trick>@trick</option>
+            }
+        </select>
+    </form>
 }
