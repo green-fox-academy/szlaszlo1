@@ -9,8 +9,8 @@ namespace FoxClub.Models
     {
         public string Name { get; set; }
         public List<string> Tricks { get; set; }
-        public string Food { get; set; }
-        public string Drink { get; set; }
+        public Nutrition Food { get; set; }
+        public Nutrition Drink { get; set; }
         public Stack<string> HistoryElement { get; set; }
     }
 }

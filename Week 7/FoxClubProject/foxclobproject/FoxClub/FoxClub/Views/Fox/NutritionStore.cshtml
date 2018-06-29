@@ -7,27 +7,30 @@
 <h2>NutritionStore</h2>
 
 <form action="/nutritionStore" method="post">
-Food:
+    Food:
     @if (Model != null)
     {
-        Food:
-    <select name="kaja">
-        @foreach (Nutrition kaja in Model)
-        {
-            if (kaja.IsFood)
-            {<option value=@kaja.Name>@kaja.Name</option>}
-        }
-    </select>
-        Drink:
-    <select name="pia">
-        @foreach (Nutrition pia in Model)
-        {
-            if (!pia.IsFood)
+        <label>Food:</label>
+        <select name="kaja">
+            @foreach (Nutrition kaja in Model)
             {
-            <option value=@pia.Name>@pia.Name</option>}
-        }
-    </select>
-    <button type="submit">Feed</button>
+                if (kaja.IsFood)
+                {
+                    <option value=@kaja.Name>@kaja.Name</option>}
+            }
+        </select>
+        <label>Portion:</label><input name="portkaja" type="number" max="10" min="1" />
+        <label>Drink:</label>
+        <select name="pia">
+            @foreach (Nutrition pia in Model)
+            {
+                if (!pia.IsFood)
+                {
+                    <option value=@pia.Name>@pia.Name</option>}
+            }
+        </select>
+        <label>Portion:</label><input type="number" name="portpia" max="10" min="1" />
+        <button type="submit">Feed</button>
     }
 </form>
 <h3>Add new nutrition</h3>

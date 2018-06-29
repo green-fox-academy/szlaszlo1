@@ -11,8 +11,8 @@ namespace FoxClub.Services
         void AddFox(string name);
         Fox GetFox();
         
-        void SetFood(string kaja);
-        void SetDrink(string pia);
+        void SetFood(string kaja, int portkaja);
+        void SetDrink(string pia, int portpia);
         List<Nutrition> GetNutritionList();
         void NewNutriotion(Nutrition name);
         void LearnTrick(string trick);

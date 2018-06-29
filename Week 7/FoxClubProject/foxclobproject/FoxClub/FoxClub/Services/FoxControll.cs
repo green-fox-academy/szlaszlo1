@@ -49,26 +49,60 @@ namespace FoxClub.Services
             nutritionList.Add(name);
         }
 
-        public void SetDrink(string pia)
+        public void SetDrink(string pia, int portpia)
         {
-            if (currentFox.Drink != pia)
-            currentFox.HistoryElement.Push($"{DateTime.Now} : Drink has been changed from: {currentFox.Drink} to: {pia}");
-            currentFox.Drink = pia;
+            if (currentFox.Drink == null)
+            {
+                currentFox.Drink = new Nutrition();
+                currentFox.HistoryElement.Push($"{DateTime.Now} : Drink has been changed from: {currentFox.Drink} to: {pia}, ({portpia} portion)");
+            }
+            else
+            {
+                if (currentFox.Drink.Name != pia)
+                    currentFox.HistoryElement.Push($"{DateTime.Now} : Drink has been changed from: {currentFox.Drink} to: {pia}  ({portpia} portion)");
+                else
+                    currentFox.HistoryElement.Push($"{DateTime.Now} : Portion has been changed from: {currentFox.Drink.Portion} to: {pia}  ({portpia} portion)");
+            }
+            
+            currentFox.Drink.Name = pia;
+            currentFox.Drink.Portion = portpia;
+            currentFox.Drink.AddedTime = DateTime.Now;
         }
 
-        public void SetFood(string kaja)
+        public void SetFood(string kaja,int portkaja)
         {
-            if (currentFox.Food != kaja)
-                currentFox.HistoryElement.Push($"{DateTime.Now} : Food has been changed from: {currentFox.Food} to: {kaja}");
-            currentFox.Food = kaja;
+            if (currentFox.Food == null)
+            {
+                currentFox.Food = new Nutrition();
+                currentFox.HistoryElement.Push($"{DateTime.Now} : Food has been changed to: {kaja}  ({portkaja} portion)");
+            }
+            else
+            {
+                if (currentFox.Food.Name != kaja)
+                    currentFox.HistoryElement.Push($"{DateTime.Now} : Food has been changed from: {currentFox.Food.Name} to: {kaja}  ({portkaja} portion)");
+                else
+                    currentFox.HistoryElement.Push($"{DateTime.Now} : Portion has been changed from: {currentFox.Food.Portion} to: {kaja}  ({portkaja} portion)");
+            }
+            
+            
+            currentFox.Food.Name = kaja;
+            currentFox.Food.Portion = portkaja;
+            currentFox.Food.AddedTime = DateTime.Now;
         }
 
         public List<string> ShowPossibleTricks()
         {
-            if (currentFox.Tricks != null)
-                return tricks.Except(currentFox.Tricks).ToList();
+            if (currentFox != null)
+            {
+                if (currentFox.Tricks != null)
+                    return tricks.Except(currentFox.Tricks).ToList();
+                else
+                    return tricks;
+            }
             else
+            {
                 return tricks;
+            }
         }
         public void LearnTrick(string trick)
         {

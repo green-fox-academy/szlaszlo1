@@ -21,17 +21,18 @@ namespace FoxClub.Controllers
         }
 
         [HttpPost("/nutritionStore")]
-        public IActionResult NutritionStore(string kaja, string pia)
+        public IActionResult NutritionStore(string kaja,int portkaja, string pia,int portpia)
         {
-            foxListControll.SetFood(kaja);
-            foxListControll.SetDrink(pia);
+            foxListControll.SetFood(kaja,portkaja);
+            foxListControll.SetDrink(pia,portpia);
             return RedirectToAction("Index", "Home",new { area=""});
         }
 
         [HttpGet("/nutritionStore")]
         public IActionResult GetNutrition()
         {
-            return View("NutritionStore", foxListControll.GetNutritionList());
+            if (foxListControll.GetFox() == null) return RedirectToAction("Login", "Home", new { area = "" });
+            else return View("NutritionStore", foxListControll.GetNutritionList());
         }
         [HttpPost("/newNutrition")]
         public IActionResult NewNutrition(Nutrition nut)
@@ -43,8 +44,8 @@ namespace FoxClub.Controllers
         [Route("/trickCenter")]
         public IActionResult TrickCenter()
         {
-
-            return View(foxListControll.ShowPossibleTricks());
+            if (foxListControll.GetFox() == null) return RedirectToAction("Login", "Home", new { area = "" });
+            else return View(foxListControll.ShowPossibleTricks());
         }
 
         [HttpPost("/trickCenter")]
@@ -57,7 +58,8 @@ namespace FoxClub.Controllers
         [HttpGet("/actionHistory")]
         public IActionResult ActionHistory()
         {
-            return View(foxListControll.GetActionHistory());
+            if (foxListControll.GetFox() == null) return RedirectToAction("Login", "Home", new { area = "" });
+            else return View(foxListControll.GetActionHistory());
         }
 
     }

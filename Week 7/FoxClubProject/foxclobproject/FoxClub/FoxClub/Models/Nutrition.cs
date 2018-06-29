@@ -9,5 +9,7 @@ namespace FoxClub.Models
     {
         public string Name { get; set; }
         public bool IsFood { get; set; }
+        public int Portion { get; set; }
+        public DateTime AddedTime { get; set; }
     }
 }

@@ -21,8 +21,12 @@ namespace FoxClub.Controllers
         [HttpGet("/index")]
         public IActionResult Index(string name)
         {
-            foxListControll.AddFox(name);
-            return View(foxListControll.GetFox());
+            if (name == null && foxListControll.GetFox()==null) return RedirectToAction("Login", "Home", new { area = "" });
+            else
+            {
+                foxListControll.AddFox(name);
+                return View(foxListControll.GetFox());
+            }
         }
 
         [Route("")]

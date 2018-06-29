@@ -10,7 +10,7 @@
     string drink;
     if (Model.Food != null)
     {
-        food = Model.Food;
+        food = Model.Food.Name;
     }
     else
     {
@@ -18,7 +18,7 @@
     }
     if (Model.Drink != null)
     {
-        drink = Model.Drink;
+        drink = Model.Drink.Name;
     }
     else
     {
@@ -30,6 +30,23 @@
 <img src="~/images/greenfox.png">
 <p>This is @Model.Name . Currently living on @food and @drink. Knows @numberOfTricks tricks</p>
 <h1>Known tricks</h1>
+@if (@Model.Food.Portion != 0 && Model.Drink.Portion != 0)
+{
+<table>
+    <tr>
+        <td>Food:</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Drink</td>
+        <td></td>
+    </tr>
+</table>
+}
+else
+{
+        <p>You have no more portion of food and drink left.</p>
+}
 @if (@Model.Tricks is null || Model.Tricks.Count == 0)
 {
     <p>You know no tricks yet. Go and learn some</p>
