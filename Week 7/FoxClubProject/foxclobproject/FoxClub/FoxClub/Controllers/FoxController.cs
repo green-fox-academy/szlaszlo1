@@ -62,5 +62,11 @@ namespace FoxClub.Controllers
             else return View(foxListControll.GetActionHistory());
         }
 
+        [HttpPost("/selectTrick")]
+        public IActionResult SelectTrick(string selecTrick)
+        {
+            foxListControll.SelectTrick(selecTrick);
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }

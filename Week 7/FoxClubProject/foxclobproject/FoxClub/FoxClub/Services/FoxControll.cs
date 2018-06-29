@@ -10,7 +10,7 @@ namespace FoxClub.Services
     {
         List<Fox> foxCollection = new List<Fox>();
         List<Nutrition> nutritionList = new List<Nutrition>();
-        List<string> tricks = new List<string>() {"write HTML", "Read from JSon", "Write to JSon","Rabbit hunting","Thieving","Get Rabies" };
+        List<string> tricks = new List<string>() {"Hacking", "Thieving", "Take a selfie","Hunting","Vlogging","Drinking coffee" };
         Fox currentFox;
         public void AddFox(string name)
         {
@@ -96,19 +96,32 @@ namespace FoxClub.Services
         public void ReduceNutrition()
         {
             if (currentFox.Food != null || currentFox.Drink != null)
-            { 
-            if (currentFox.Food != null)
-                currentFox.Food.Portion -= (int)DateTime.Now.Subtract(currentFox.Food.AddedTime).TotalMinutes;
-                
-            if (currentFox.Drink != null && !currentFox.IsDead)
-                currentFox.Drink.Portion -= (int)DateTime.Now.Subtract(currentFox.Drink.AddedTime).TotalMinutes;
+            {
+                if (currentFox.Food != null)
+                {
+                    currentFox.Food.Portion -= (int)DateTime.Now.Subtract(currentFox.Food.AddedTime).TotalDays;
+                    currentFox.Food.AddedTime = DateTime.Now;
+                }
+                else
+                {
+                    currentFox.IsDead = ((int)DateTime.Now.Subtract(currentFox.Birth).TotalHours >= 5) ? true : false;
+                }
 
+                if (currentFox.Drink != null)
+                {
+                    currentFox.Drink.Portion -= (int)DateTime.Now.Subtract(currentFox.Drink.AddedTime).TotalDays;
+                    currentFox.Drink.AddedTime = DateTime.Now;
+                }
+                else
+                {
+                    currentFox.IsDead = ((int)DateTime.Now.Subtract(currentFox.Birth).TotalHours >= 5) ? true : false;
+                }
 
                 CheckAlive();
             }
             else
             {
-                currentFox.IsDead = ((int)DateTime.Now.Subtract(currentFox.Birth).TotalMinutes >= 5) ? true : false;
+                currentFox.IsDead = ((int)DateTime.Now.Subtract(currentFox.Birth).TotalHours >= 5) ? true : false;
             }
         }
 
@@ -139,6 +152,11 @@ namespace FoxClub.Services
             currentFox.HistoryElement.Push($"{DateTime.Now} : Learned to: {trick}");
 
             currentFox.Tricks.Add(trick);
+        }
+
+        public void SelectTrick(string trick)
+        {
+            currentFox.SelectedTrick = trick;
         }
 
         public Stack<string> GetActionHistory()

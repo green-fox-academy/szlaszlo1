@@ -16,6 +16,7 @@ namespace FoxClub.Services
         List<Nutrition> GetNutritionList();
         void NewNutriotion(Nutrition name);
         void LearnTrick(string trick);
+        void SelectTrick(string trick);
         List<string> ShowPossibleTricks();
 
         Stack<string> GetActionHistory();
