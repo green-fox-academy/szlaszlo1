@@ -7,21 +7,61 @@ namespace UnitTestProjectPoker
     [TestFixture]
     public class UnitTest1
     {
-        Calculation c = new Calculation();
-        [Test]
-        public void CheckIfSplitInputIs12()
+        Calculation c;
+
+        [SetUp]
+        public void SetUp()
         {
-            string input = "Black: 2H 3D 5S 9C KD White: 2C 3H 4S 8C AH";
-            bool output = c.CheckLength(input);
-            Assert.AreEqual(true, output);
+            c = new Calculation();
+        }
+        [TestCase("2")]
+        public void GetValue2(string s)
+        {
+            
+            int output = c.GetValue(s);
+            Assert.AreEqual(2, output);
+        }
+        [TestCase("3")]
+        public void GetVaue3(string s)
+        {
+            int output = c.GetValue(s);
+            Assert.AreEqual(3, output);
         }
 
-        [Test]
-        public void CheckHighHand()
+
+        [TestCase("J")]
+        public void GetValueJ(string s)
         {
-            string input = "Black: 2H 3D 5S 9C KD White: 2C 3H 4S 8C AH";
-            string output = c.HighHand(input);
-            Assert.AreEqual("White wins", output);
+            int output = c.GetValue(s);
+            Assert.AreEqual(11, output);
+        }
+
+        [TestCase("Q")]
+        public void GetValueQ(string s)
+        {
+            int output = c.GetValue(s);
+            Assert.AreEqual(12, output);
+        }
+
+        [TestCase("K")]
+        public void GetValueK(string s)
+        {
+            int output = c.GetValue(s);
+            Assert.AreEqual(13, output);
+        }
+
+        [TestCase("A")]
+        public void GetValueA(string s)
+        {
+            int output = c.GetValue(s);
+            Assert.AreEqual(14, output);
+        }
+
+        [TestCase("2H")]
+        public void GetCardWithoutSymbol(string s)
+        {
+            int output = c.GetValue(s);
+            Assert.AreEqual(2, output);
         }
     }
 }

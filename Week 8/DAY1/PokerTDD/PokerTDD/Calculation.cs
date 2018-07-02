@@ -8,94 +8,39 @@ namespace PokerTDD
 {
     public class Calculation
     {
-        public bool CheckLength(string a)
+        public int GetCardWithoutSymbol(string s)
         {
-            string[] hands = a.Split(' ');
-            return hands.Length == 12;
+
+            return GetValue(s[0].ToString());
         }
-
-        public string HighHand(string a)
+        public int GetValue(string s)
         {
-            string[] tomb = a.Split(' ');
-            string[,] black =new string[5,2];
-            string[,] white = new string[5,2];
-            for (int i = 0; i < 5; i++)
+            int x;
+            try
             {
-                black[i,0] = tomb[i + 1].Substring(0,1);
-                black[i, 1] = tomb[i + 1].Substring(1);
-                white[i, 0] = tomb[i + 7].Substring(0, 1);
-                white[i, 1] = tomb[i + 7].Substring(1);
+                x = Convert.ToInt32(s);
+                return x;
             }
-            ConvertToint(black);
-            ConvertToint(white);
-            for (int i = 0; i < 5; i++)
+            catch (Exception)
             {
-                for (int k = i; k > 0; k--)
-                {
-                    if (Convert.ToInt32(black[k,0])>Convert.ToInt32(black[k-1,0]))
-                    {
-                        string temp = black[k, 0];
-                        black[k, 0] = black[k - 1, 0];
-                        black[k-1, 0] = temp;
-                    }
-
-                    if (Convert.ToInt32(white[k, 0]) > Convert.ToInt32(white[k - 1, 0]))
-                    {
-                        string temp = white[k, 0];
-                        white[k, 0] = white[k - 1, 0];
-                        white[k - 1, 0] = temp;
-                    }
-                }
-                
-                
-            }
-            bool gotWinner = false;
-            int h = 0;
-            string verdict="Tie";
-            while (!gotWinner && h<5)
-            {
-                if (Convert.ToInt32(black[h,0])> Convert.ToInt32(white[h, 0]))
-                {
-                    gotWinner = true;
-                    verdict = "Black wins";
-                }
-                else if (Convert.ToInt32(black[h, 0]) < Convert.ToInt32(white[h, 0]))
-                {
-                    gotWinner = true;
-                    verdict = "White wins";
-                }
-                
-                h++;
-            }
-            return verdict;
-        }
-
-        public void ConvertToint(string[,] s)
-        {
-            for (int i = 0; i < s.GetLength(0); i++)
-            {
-                switch (s[i,0])
+                switch (s)
                 {
                     case "T":
-                        s[i, 0] = "10";
-                        break;
+                        return 10;
                     case "J":
-                        s[i, 0] = "11";
-                        break;
+                        return 11;
+                        
                     case "Q":
-                        s[i, 0] = "12";
-                        break;
+                        return 12;
                     case "K":
-                        s[i, 0] = "13";
-                        break;
+                        return 13;
                     case "A":
-                        s[i, 0] = "14";
-                        break;
+                        return 14;
                     default:
                         break;
                 }
             }
-
+            return 0;
         }
     }
 }
