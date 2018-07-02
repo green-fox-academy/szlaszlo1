@@ -32,7 +32,6 @@ namespace GreetSomeone.Controllers
         [HttpGet("greet")]
         public IActionResult Greet()
         {
-            
             return View("greet",greet.GetName());
         }
     }

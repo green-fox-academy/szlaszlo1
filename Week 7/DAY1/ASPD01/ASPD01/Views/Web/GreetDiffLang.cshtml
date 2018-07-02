@@ -10,11 +10,10 @@
 <body>
     <div>
     @foreach (string i in @Model.Hellos) {
-        //color: rgba(@Model.GetRGB(), @Model.GetRGB(), @Model.GetRGB());
             <p style="font-size: @Model.GetSize();
-                      color: rgba(@Model.GetRGB(), @Model.GetRGB(), @Model.GetRGB());
-             ">
-        @i, @Model.Name!</p>
+                      color: rgba(@Model.GetRGB(), @Model.GetRGB(), @Model.GetRGB());">
+                     @i, @Model.Name!
+            </p>
 
     }
         </div>
