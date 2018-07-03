@@ -23,10 +23,11 @@ namespace TodoApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string s= @"Data Source=(localdb)\ProjectsV13;Initial Catalog=ToDoDB;Integrated Security=True;";
+            string s= @"Data Source=(localdb)\ProjectsV13;Initial Catalog=todos;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddMvc();
             services.AddTransient<ITodoRepository, TodoRepository>();
             services.AddDbContext<TodoContext>(options => options.UseSqlServer(s));
+            services.AddTransient<TodoContext>();
             //services.AddTransient<>;
         }
 

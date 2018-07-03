@@ -20,10 +20,10 @@ namespace TodoApp.Controllers
 
         [Route("")]
         [Route("list")]
-        public IActionResult List(List<Todo> todos)
+        public IActionResult List()
         {
-
-            return View(todos);
+            
+            return View(todorep.ListAll());
         }
 
     }

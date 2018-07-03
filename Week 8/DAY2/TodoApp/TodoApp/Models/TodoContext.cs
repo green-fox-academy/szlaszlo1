@@ -9,7 +9,7 @@ namespace TodoApp.Repositories
 {
     public class TodoContext:DbContext
     {
-        List<Todo> todoList = new List<Todo>();
+        public DbSet<Todo> Todos { get; set; }
         public TodoContext(DbContextOptions<TodoContext> options):base(options)
         {
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoApp.Models;
 
 namespace TodoApp.Repositories
 {
@@ -13,6 +14,9 @@ namespace TodoApp.Repositories
         {
             this.todoContext = todoContext;
         }
-
+        public List<Todo> ListAll()
+        {
+            return todoContext.Todos.ToList();
+        }
     }
 }
