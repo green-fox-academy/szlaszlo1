@@ -60,7 +60,7 @@ namespace UnitTestProjectPoker
         [TestCase("2H")]
         public void GetCardWithoutSymbol(string s)
         {
-            int output = c.GetValue(s);
+            int output = c.GetCardWithoutSymbol(s);
             Assert.AreEqual(2, output);
         }
     }
