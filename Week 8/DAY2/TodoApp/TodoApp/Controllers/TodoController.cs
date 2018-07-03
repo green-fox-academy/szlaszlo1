@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TodoApp.Models;
+using TodoApp.Repositories;
 
 namespace TodoApp.Controllers
 {
     [Route("/todo")]
     public class TodoController : Controller
     {
-        
-        [Route("/")]
-        [Route("/list")]
-        public IActionResult List()
+        ITodoRepository todorep;
+        public TodoController(ITodoRepository todorep)
+        {
+            this.todorep = todorep;
+        }
+
+
+        [Route("")]
+        [Route("list")]
+        public IActionResult List(List<Todo> todos)
         {
 
-            return Content("This is my first todo");
-        }
-        public IActionResult Index()
-        {
-            return View();
+            return View(todos);
         }
 
     }
