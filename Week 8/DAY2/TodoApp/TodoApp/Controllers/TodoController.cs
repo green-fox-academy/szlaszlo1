@@ -43,5 +43,18 @@ namespace TodoApp.Controllers
             todorep.Delete(id);
             return RedirectToAction("List");
         }
+
+        [HttpGet("/{id}/edit")]
+        public IActionResult Edit(long id)
+        {
+            return View(todorep.Edit(id));
+        }
+
+        [HttpPost("/{id}/edit")]
+        public IActionResult Update(Todo t)
+        {
+            todorep.Update(t);
+            return RedirectToAction("List");
+        }
     }
 }

@@ -31,5 +31,16 @@ namespace TodoApp.Repositories
             todoContext.Todos.Remove(todoContext.Todos.FirstOrDefault(x => x.Id == id));
             todoContext.SaveChanges();
         }
+
+        public void Update(Todo t)
+        {
+            todoContext.Todos.Update(t);
+            todoContext.SaveChanges();
+        }
+
+        public Todo Edit(long id)
+        {
+            return todoContext.Todos.FirstOrDefault(x => x.Id == id);
+        }
     }
 }

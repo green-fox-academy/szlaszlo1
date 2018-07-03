@@ -12,5 +12,7 @@ namespace TodoApp.Repositories
         List<Todo> ListAll();
         void AddNew(Todo todo);
         void Delete(long id);
+        void Update(Todo t);
+        Todo Edit(long id);
     }
 }
