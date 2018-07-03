@@ -22,9 +22,19 @@ namespace TodoApp.Controllers
         [Route("list")]
         public IActionResult List()
         {
-            
             return View(todorep.ListAll());
         }
 
+        [HttpGet("/addnew")]
+        public IActionResult AddNew()
+        {
+            return View();
+        }
+        [HttpPost("/addnew")]
+        public IActionResult AddNew(Todo t)
+        {
+            todorep.AddNew(t);
+            return RedirectToAction("List");
+        }
     }
 }

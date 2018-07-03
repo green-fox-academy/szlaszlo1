@@ -5,8 +5,25 @@
 }
 
 
-<h2>List</h2>
-@foreach (Todo t in Model)
-{
-<p>@t.Title</p>
-}
+<h2>Todos for today</h2>
+<a href="/addnew">Add new todo</a>
+
+<table class="table table-bordered table-responsive table-hover">
+    <thead>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Is urgent?</th>
+    <th>Is done?</th>
+    </thead>
+
+    @foreach (Todo t in Model)
+    {
+        <tr>
+            <td>@t.Id</td>
+            <td>@t.Title</td>
+            <td>@t.IsUrgent</td>
+            <td>@t.IsDone</td>
+        </tr>
+    }
+</table>
+

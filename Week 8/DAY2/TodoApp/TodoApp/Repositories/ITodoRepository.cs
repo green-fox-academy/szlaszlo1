@@ -10,5 +10,6 @@ namespace TodoApp.Repositories
     public interface ITodoRepository
     {
         List<Todo> ListAll();
+        void AddNew(Todo todo);
     }
 }

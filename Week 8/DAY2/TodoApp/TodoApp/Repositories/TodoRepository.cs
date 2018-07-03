@@ -14,9 +14,16 @@ namespace TodoApp.Repositories
         {
             this.todoContext = todoContext;
         }
+
+
         public List<Todo> ListAll()
         {
             return todoContext.Todos.ToList();
+        }
+        public void AddNew(Todo todo)
+        {
+            todoContext.Todos.Add(todo);
+            todoContext.SaveChanges();
         }
     }
 }
