@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TodoApp.Models
 {
-    public class Todo
+    public class Todos
     {
         public long Id { get; set; }
         public string Title { get; set; }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TodoApp.Models;
 using TodoApp.Repositories;
+using TodoAppVol3.Models;
 
 namespace TodoApp.Controllers
 {
@@ -31,7 +31,7 @@ namespace TodoApp.Controllers
             return View();
         }
         [HttpPost("/addnew")]
-        public IActionResult AddNew(Todos t)
+        public IActionResult AddNew(Todo t)
         {
             todorep.AddNew(t);
             return RedirectToAction("List");
@@ -51,7 +51,7 @@ namespace TodoApp.Controllers
         }
 
         [HttpPost("/{id}/edit")]
-        public IActionResult Update(Todos t)
+        public IActionResult Update(Todo t)
         {
             todorep.Update(t);
             return RedirectToAction("List");

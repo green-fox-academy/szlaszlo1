@@ -1,0 +1,46 @@
+﻿@model Todo
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Todo</h2>
+
+<form action="/@Model.Id/edit" method="post">
+    <table>
+        <tr>
+            <td>Todo Description:</td>
+            <td><input type="text" name="Title" value="@Model.Title"></td>
+        </tr>
+        <tr>
+            <td>Is it urgent?:</td>
+            @if(Model.IsUrgent)
+            {
+            <td><input type="checkbox" name="IsUrgent" value=true checked></td>
+            }
+            else
+            {
+            <td><input type="checkbox" name="IsUrgent" value=true></td>
+            }
+        </tr>
+        <tr>
+            <td>Is it done?</td>
+            @if(Model.IsDone)
+            {
+            <td><input type="checkbox" name="IsDone" value="true" checked></td>
+            }
+            else
+            {
+        <td><input type="checkbox" name="IsDone" value="true"></td>
+            }
+            
+        </tr>
+        <tr>
+            <td><button type="submit">Change</button></td>
+            <td><a href="/todo">Cancel</a></td>
+        </tr>
+    </table>
+
+
+</form>
+

@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApp.Repositories;
+using TodoAppVol3.Models;
 
-namespace TodoApp
+namespace TodoAppVol3
 {
     public class Startup
     {
@@ -23,12 +24,11 @@ namespace TodoApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string s= @"Data Source=(localdb)\ProjectsV13;Initial Catalog=todolist;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string s = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=mytodolist;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddMvc();
-            services.AddTransient<ITodoRepository, TodoRepository>();
             services.AddDbContext<TodoContext>(options => options.UseSqlServer(s));
+            services.AddTransient<ITodoRepository, TodoRepository>();
             services.AddTransient<TodoContext>();
-            //services.AddTransient<>;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TodoApp.Repositories;
+using TodoAppVol3.Models;
 
-namespace TodoApp.Migrations
+namespace TodoAppVol3.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20180703131916_Initial-Migration3")]
-    partial class InitialMigration3
+    [Migration("20180704103115_Initial-Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace TodoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TodoApp.Models.Todo", b =>
+            modelBuilder.Entity("TodoAppVol3.Models.Todo", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

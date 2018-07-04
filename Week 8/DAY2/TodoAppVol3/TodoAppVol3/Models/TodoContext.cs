@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoApp.Models;
 
-namespace TodoApp.Repositories
+namespace TodoAppVol3.Models
 {
     public class TodoContext:DbContext
     {
-        public DbSet<Todos> Todos { get; set; }
+        public DbSet<Todo> Todos { get; set; }
         public TodoContext(DbContextOptions<TodoContext> options):base(options)
         {
 

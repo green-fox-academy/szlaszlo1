@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoApp.Models;
+using TodoAppVol3.Models;
 
 namespace TodoApp.Repositories
 {
-    public class TodoRepository:ITodoRepository
+    public class TodoRepository : ITodoRepository
     {
         private TodoContext todoContext;
         public TodoRepository(TodoContext todoContext)
@@ -16,11 +16,11 @@ namespace TodoApp.Repositories
         }
 
 
-        public List<Todos> ListAll()
+        public List<Todo> ListAll()
         {
             return todoContext.Todos.ToList();
         }
-        public void AddNew(Todos todo)
+        public void AddNew(Todo todo)
         {
             todoContext.Todos.Add(todo);
             todoContext.SaveChanges();
@@ -32,13 +32,13 @@ namespace TodoApp.Repositories
             todoContext.SaveChanges();
         }
 
-        public void Update(Todos t)
+        public void Update(Todo t)
         {
             todoContext.Todos.Update(t);
             todoContext.SaveChanges();
         }
 
-        public Todos Edit(long id)
+        public Todo Edit(long id)
         {
             return todoContext.Todos.FirstOrDefault(x => x.Id == id);
         }

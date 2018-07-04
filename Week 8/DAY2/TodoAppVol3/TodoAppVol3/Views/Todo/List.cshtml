@@ -1,0 +1,33 @@
+﻿@model List<Todo>
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Todos for today</h2>
+<a href="/addnew">Add new todo</a>
+
+<table class="table table-bordered table-responsive table-hover">
+    <thead>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Is urgent?</th>
+    <th>Is done?</th>
+    <th>Delete</th>
+    <th>Edit</th>
+    </thead>
+
+    @foreach (Todo t in Model)
+    {
+        <tr>
+            <td>@t.Id</td>
+            <td>@t.Title</td>
+            <td>@t.IsUrgent</td>
+            <td>@t.IsDone</td>
+            <td><a href="/@t.Id/delete">Delete</a></td>
+            <td><a href="/@t.Id/edit">Edit</a></td>
+        </tr>
+    }
+</table>
+
