@@ -7,13 +7,13 @@ using TodoAppVol3.Models;
 
 namespace TodoApp.Repositories
 {
-    public interface ITodoRepository
+    public interface ITodoRepository<Type>
     {
-        List<Todo> ListAll();
-        void AddNew(Todo todo);
+        List<Type> ListAll();
+        void AddNew(Type todo);
         void Delete(long id);
-        void Update(Todo t);
-        Todo Edit(long id);
-        List<Todo> LisrSearch(string searchedString);
+        void Update(Type t);
+        Type GetElement(long id);
+        List<Type> LisrSearch(string searchedString);
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApp.Repositories;
 using TodoAppVol3.Models;
+using TodoAppVol3.Repositories;
 
 namespace TodoAppVol3
 {
@@ -26,7 +27,8 @@ namespace TodoAppVol3
         {
             string s = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=ExtendedTodoList;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddMvc();
-            services.AddTransient<ITodoRepository, TodoRepository>();
+            services.AddTransient<TodoRepository>();
+            services.AddTransient<AssigneeRepository>();
             services.AddDbContext<TodoContext>(options => options.UseSqlServer(s));
             services.AddTransient<TodoContext>();
         }

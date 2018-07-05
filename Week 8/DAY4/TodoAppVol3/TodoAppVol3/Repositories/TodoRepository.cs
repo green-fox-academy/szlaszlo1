@@ -7,7 +7,7 @@ using TodoAppVol3.Models;
 
 namespace TodoApp.Repositories
 {
-    public class TodoRepository : ITodoRepository
+    public class TodoRepository : ITodoRepository<Todo>
     {
         private TodoContext todoContext;
         public TodoRepository(TodoContext todoContext)
@@ -38,7 +38,7 @@ namespace TodoApp.Repositories
             todoContext.SaveChanges();
         }
 
-        public Todo Edit(long id)
+        public Todo GetElement(long id)
         {
             return todoContext.Todos.FirstOrDefault(x => x.Id == id);
         }

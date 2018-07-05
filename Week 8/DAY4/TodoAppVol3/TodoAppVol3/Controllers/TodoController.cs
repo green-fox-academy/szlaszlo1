@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoApp.Repositories;
 using TodoAppVol3.Models;
+using TodoAppVol3.Repositories;
 
 namespace TodoApp.Controllers
 {
     [Route("/todo")]
     public class TodoController : Controller
     {
-        ITodoRepository todorep;
-        public TodoController(ITodoRepository todorep)
+        TodoRepository todorep;
+        AssigneeRepository assigneerep;
+        public TodoController(TodoRepository todorep,AssigneeRepository assigneerep)
         {
             this.todorep = todorep;
+            this.assigneerep = assigneerep;
         }
 
 
@@ -47,7 +50,7 @@ namespace TodoApp.Controllers
         [HttpGet("/{id}/edit")]
         public IActionResult Edit(long id)
         {
-            return View(todorep.Edit(id));
+            return View(todorep.GetElement(id));
         }
 
         [HttpPost("/{id}/edit")]
@@ -60,6 +63,24 @@ namespace TodoApp.Controllers
         public IActionResult Search(string searchedString)
         {
             return View("List", todorep.LisrSearch(searchedString));
+        }
+
+        [HttpGet("/listAssignees")]
+        public IActionResult Assignees()
+        {
+            return View();
+        }
+        [HttpPost("addAssignee")]
+        public IActionResult AddAssignee(Assignee a)
+        {
+            assigneerep.AddNew(a);
+            return RedirectToAction("Assignees");
+        }
+        [HttpPost("/removeAssignee")]
+        public IActionResult RemoveAssignee(int id)
+        {
+            assigneerep.Delete(id);
+            return RedirectToAction("Assignees");
         }
     }
 }
