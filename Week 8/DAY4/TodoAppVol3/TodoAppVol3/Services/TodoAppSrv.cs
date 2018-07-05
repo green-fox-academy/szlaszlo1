@@ -46,5 +46,39 @@ namespace TodoAppVol3.Services
         {
             assigneerep.Update(a);
         }
+
+        public Todo GetTodo(long id)
+        {
+            return todorep.GetElement(id);
+        }
+
+        public Assignee GetAssignee(long id)
+        {
+            return assigneerep.GetElement(id);
+        }
+
+        public void DeleteTodo(long id)
+        {
+            todorep.Delete(id);
+        }
+
+        public void DeleteAssignee(long id)
+        {
+            assigneerep.Delete(id);
+        }
+
+        public List<Todo> GetFilteredTodo(string searchedString)
+        {
+            return todorep.LisrSearch(searchedString);
+        }
+        public List<Assignee> GetFilteredAssignee(string searchedString)
+        {
+            return assigneerep.LisrSearch(searchedString);
+        }
+
+        public EditTodoViewModel GetViewModel(long id)
+        {
+            return new EditTodoViewModel { Todo = todorep.GetElement(id), Assignees = assigneerep.ListAll() };
+        }
     }
 }

@@ -43,14 +43,14 @@ namespace TodoApp.Controllers
         [HttpGet("/{id}/delete")]
         public IActionResult Delete(long id)
         {
-            todorep.Delete(id);
+            todosrv.DeleteTodo(id);
             return RedirectToAction("List");
         }
 
         [HttpGet("/{id}/edit")]
         public IActionResult Edit(long id)
         {
-            return View(todorep.GetElement(id));
+            return View(todosrv.GetViewModel(id));
         }
 
         [HttpPost("/{id}/edit")]
@@ -62,7 +62,7 @@ namespace TodoApp.Controllers
         [HttpPost("/searchtodos")]
         public IActionResult Search(string searchedString)
         {
-            return View("List", todorep.LisrSearch(searchedString));
+            return View("List", todosrv.GetFilteredTodo(searchedString));
         }
 
         [HttpGet("/listAssignees")]
@@ -79,13 +79,13 @@ namespace TodoApp.Controllers
         [HttpPost("/removeAssignee")]
         public IActionResult RemoveAssignee(int id)
         {
-            assigneerep.Delete(id);
+            todosrv.DeleteAssignee(id);
             return RedirectToAction("Assignees");
         }
         [HttpGet("/{id}/editAssignee")]
         public IActionResult EditAssignee(int id)
         {
-            return View(assigneerep.GetElement(id));
+            return View(todosrv.GetAssignee(id));
         }
         [HttpPost("/{id}/editAssignee")]
         public IActionResult UpdateAssignee(Assignee a)

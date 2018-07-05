@@ -33,7 +33,7 @@ namespace TodoAppVol3.Repositories
 
         public List<Assignee> LisrSearch(string searchedString)
         {
-            throw new NotImplementedException();
+            return todoContext.Assignees.Where(x => x.Name.ToLower().Contains(searchedString.ToLower())).ToList();
         }
 
         public List<Assignee> ListAll()

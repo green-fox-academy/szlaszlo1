@@ -14,5 +14,12 @@ namespace TodoAppVol3.Services
         void AddNew(Assignee a);
         void Update(Todo t);
         void Update(Assignee a);
+        Todo GetTodo(long id);
+        Assignee GetAssignee(long id);
+        void DeleteTodo(long id);
+        void DeleteAssignee(long id);
+        List<Todo> GetFilteredTodo(string searchedString);
+        List<Assignee> GetFilteredAssignee(string searchedString);
+        EditTodoViewModel GetViewModel(long id);
     }
 }

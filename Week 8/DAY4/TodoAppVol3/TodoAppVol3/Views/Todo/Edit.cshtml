@@ -1,20 +1,19 @@
-﻿@model TodoAppVol3.Services.TodoAppSrv
+﻿@model EditTodoViewModel
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Edit Todo</h2>
-
-<form action="/@Model.Id/edit" method="post">
+<form action="/@Model.Todo.Id/edit" method="post">
     <table>
         <tr>
             <td>Todo Description:</td>
-            <td><input type="text" name="Title" value="@Model.Title"></td>
+            <td><input type="text" name="Title" value="@Model.Todo.Title"></td>
         </tr>
         <tr>
             <td>Is it urgent?:</td>
-            @if(Model.IsUrgent)
+            @if(Model.Todo.IsUrgent)
             {
             <td><input type="checkbox" name="IsUrgent" value=true checked></td>
             }
@@ -25,7 +24,7 @@
         </tr>
         <tr>
             <td>Is it done?</td>
-            @if(Model.IsDone)
+            @if(Model.Todo.IsDone)
             {
             <td><input type="checkbox" name="IsDone" value="true" checked></td>
             }
@@ -34,6 +33,16 @@
         <td><input type="checkbox" name="IsDone" value="true"></td>
             }
             
+        </tr>
+        <tr>
+            <td>
+                <select name="Id">
+                    @foreach (Assignee item in Model.Assignees)
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
             <td><button type="submit">Change</button></td>

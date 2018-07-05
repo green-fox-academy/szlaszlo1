@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TodoApp.Repositories;
 using TodoAppVol3.Models;
 using TodoAppVol3.Repositories;
+using TodoAppVol3.Services;
 
 namespace TodoAppVol3
 {
@@ -29,6 +30,7 @@ namespace TodoAppVol3
             services.AddMvc();
             services.AddTransient<TodoRepository>();
             services.AddTransient<AssigneeRepository>();
+            services.AddTransient<ITodoApp, TodoAppSrv>();
             services.AddDbContext<TodoContext>(options => options.UseSqlServer(s));
             services.AddTransient<TodoContext>();
         }
