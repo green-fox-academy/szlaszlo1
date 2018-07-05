@@ -1,0 +1,29 @@
+﻿@model Assignee
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Todo</h2>
+
+<form action="/@Model.Id/editAssignee" method="post">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" name="Name" value="@Model.Name"></td>
+        </tr>
+        
+        <tr>
+            <td>E-mail:</td>
+            <td><input type="email" name="Email" value="@Model.Email"></td>
+
+        </tr>
+        <tr>
+            <td><button type="submit">Change</button></td>
+            <td><a href="/listAssignees">Cancel</a></td>
+        </tr>
+    </table>
+
+
+</form>
+

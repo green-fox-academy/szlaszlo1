@@ -68,9 +68,9 @@ namespace TodoApp.Controllers
         [HttpGet("/listAssignees")]
         public IActionResult Assignees()
         {
-            return View();
+            return View(assigneerep.ListAll());
         }
-        [HttpPost("addAssignee")]
+        [HttpPost("/addAssignee")]
         public IActionResult AddAssignee(Assignee a)
         {
             assigneerep.AddNew(a);
@@ -80,6 +80,17 @@ namespace TodoApp.Controllers
         public IActionResult RemoveAssignee(int id)
         {
             assigneerep.Delete(id);
+            return RedirectToAction("Assignees");
+        }
+        [HttpGet("/{id}/editAssignee")]
+        public IActionResult EditAssignee(int id)
+        {
+            return View(assigneerep.GetElement(id));
+        }
+        [HttpPost("/{id}/editAssignee")]
+        public IActionResult UpdateAssignee(Assignee a)
+        {
+            assigneerep.Update(a);
             return RedirectToAction("Assignees");
         }
     }

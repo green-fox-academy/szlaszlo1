@@ -5,15 +5,15 @@
 }
 
 <h2>Assignees</h2>
-<form action="/assAssignee" method="post">
-    <table>
+<form action="/addAssignee" method="post">
+    <table >
         <tr>
             <td>Name:</td>
             <td><input type="text" name="Name"></td>
         </tr>
         <tr>
             <td>E-mail:</td>
-            <td><input type="text" name="Email"></td>
+            <td><input type="email" name="Email"></td>
         </tr>
         <tr>
             <td colspan="2"><button type="submit" style="display:block;">Add new Assignee</button></td>
@@ -21,7 +21,7 @@
     </table>
 </form>
 <form action="/removeAssignee" method="post">
-    <table>
+    <table class="table table-bordered table-responsive table-hover">
         @foreach (Assignee item in Model)
         {
 
@@ -29,7 +29,7 @@
                 <td><input type="radio" name="id" value=@item.Id></td>
                 <td>@item.Name</td>
                 <td>@item.Email</td>
-                <td><a href="{@item.Id}/edit">EDIT</a></td>
+                <td><a href="/@item.Id/editAssignee">EDIT</a></td>
             </tr>
         }
     </table>
