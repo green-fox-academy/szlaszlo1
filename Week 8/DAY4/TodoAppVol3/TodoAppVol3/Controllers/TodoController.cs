@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApp.Repositories;
 using TodoAppVol3.Models;
 using TodoAppVol3.Repositories;
+using TodoAppVol3.Services;
 
 namespace TodoApp.Controllers
 {
     [Route("/todo")]
     public class TodoController : Controller
     {
-        TodoRepository todorep;
-        AssigneeRepository assigneerep;
-        public TodoController(TodoRepository todorep,AssigneeRepository assigneerep)
+        
+        ITodoApp todosrv;
+        public TodoController(ITodoApp todosrv)
         {
-            this.todorep = todorep;
-            this.assigneerep = assigneerep;
+            this.todosrv = todosrv;
         }
 
 
@@ -25,7 +25,7 @@ namespace TodoApp.Controllers
         [Route("list")]
         public IActionResult List()
         {
-            return View(todorep.ListAll());
+            return View(todosrv.ListAllTodo());
         }
 
         [HttpGet("/addnew")]
@@ -36,7 +36,7 @@ namespace TodoApp.Controllers
         [HttpPost("/addnew")]
         public IActionResult AddNew(Todo t)
         {
-            todorep.AddNew(t);
+            todosrv.AddNew(t);
             return RedirectToAction("List");
         }
 
@@ -56,7 +56,7 @@ namespace TodoApp.Controllers
         [HttpPost("/{id}/edit")]
         public IActionResult Update(Todo t)
         {
-            todorep.Update(t);
+            todosrv.Update(t);
             return RedirectToAction("List");
         }
         [HttpPost("/searchtodos")]
@@ -68,12 +68,12 @@ namespace TodoApp.Controllers
         [HttpGet("/listAssignees")]
         public IActionResult Assignees()
         {
-            return View(assigneerep.ListAll());
+            return View(todosrv.ListAllAssignee());
         }
         [HttpPost("/addAssignee")]
         public IActionResult AddAssignee(Assignee a)
         {
-            assigneerep.AddNew(a);
+            todosrv.AddNew(a);
             return RedirectToAction("Assignees");
         }
         [HttpPost("/removeAssignee")]
@@ -90,7 +90,7 @@ namespace TodoApp.Controllers
         [HttpPost("/{id}/editAssignee")]
         public IActionResult UpdateAssignee(Assignee a)
         {
-            assigneerep.Update(a);
+            todosrv.Update(a);
             return RedirectToAction("Assignees");
         }
     }
