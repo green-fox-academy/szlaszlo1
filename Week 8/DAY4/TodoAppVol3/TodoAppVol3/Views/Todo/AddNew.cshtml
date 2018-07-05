@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "AddNew";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add New todo</h2>
+<form action="/addnew" method="post">
+    <table>
+        <thead>
+        <th>Title</th>
+        <th>Is Urgent?</th>
+        </thead>
+        <tr>
+            <td><input type="text" name="Title" /></td>
+            <td><input type="checkbox" name="IsUrgent" value="true" /></td>
+        </tr>
+    </table>
+    <button type="submit">Add</button>
+</form>
+
