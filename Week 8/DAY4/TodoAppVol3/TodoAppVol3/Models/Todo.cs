@@ -12,5 +12,6 @@ namespace TodoAppVol3.Models
         public bool IsUrgent { get; set; }
         public bool IsDone { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Assignee Assignee { get; set; }
     }
 }
