@@ -1,0 +1,37 @@
+﻿@model TodosOfAssignees
+@{
+    ViewData["Title"] = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Test</h2>
+
+<table class="table table-bordered table-responsive table-hover">
+    @foreach (Assignee ass in Model.Asignees)
+    {
+        <tr>
+            <td>
+                <form action="/showHide" method="post">
+                    <button type="submit" name="index" value=@Model.Asignees.IndexOf(ass)>+</button>
+                </form>
+            </td>
+            <td>@ass.Name</td>
+            <td>@ass.Email</td>
+        </tr>
+        @if (Model.Show[Model.Asignees.IndexOf(ass)])
+        {
+            @foreach (Todo todo in Model.Todos)
+            {
+                @if (todo.Assignee.Id == ass.Id)
+                {
+                    <tr>
+                        <td>@todo.Title</td>
+                        <td>@todo.CreatedAt</td>
+                        <td>@todo.IsUrgent</td>
+                    </tr>
+                }
+            }
+
+        }
+    }
+</table>

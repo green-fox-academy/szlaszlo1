@@ -21,5 +21,8 @@ namespace TodoAppVol3.Services
         List<Todo> GetFilteredTodo(string searchedString);
         List<Assignee> GetFilteredAssignee(string searchedString);
         EditTodoViewModel GetViewModel(long id);
+        TodosOfAssignees GetTodoOfAssigneesViewModel();
+        TodosOfAssignees GetTodoOfAssigneesViewModel(int index);
+        void SetConnection(Todo t);
     }
 }

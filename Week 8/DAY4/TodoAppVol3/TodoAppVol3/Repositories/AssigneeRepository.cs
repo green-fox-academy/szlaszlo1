@@ -46,5 +46,10 @@ namespace TodoAppVol3.Repositories
             todoContext.Assignees.Update(t);
             todoContext.SaveChanges();
         }
+        public void UpdateBoth(Assignee t)
+        {
+            todoContext.Assignees.Update(t);
+            todoContext.SaveChanges();
+        }
     }
 }

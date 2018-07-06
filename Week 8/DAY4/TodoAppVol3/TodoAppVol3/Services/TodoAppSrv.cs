@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoApp.Repositories;
@@ -79,6 +80,43 @@ namespace TodoAppVol3.Services
         public EditTodoViewModel GetViewModel(long id)
         {
             return new EditTodoViewModel { Todo = todorep.GetElement(id), Assignees = assigneerep.ListAll() };
+        }
+
+        public void SetConnection(Todo t)
+        {
+
+            todorep.UpdateBoth(t);
+            
+        }
+
+        public TodosOfAssignees GetTodoOfAssigneesViewModel()
+        {
+            TodosOfAssignees toa = new TodosOfAssignees { Todos = todorep.ListAll(), Asignees = assigneerep.ListAll() };
+            toa.Show = new bool[toa.Asignees.Count];
+            for (int i = 0; i < toa.Asignees.Count; i++)
+            {
+                toa.Show[i] = false;
+            }
+            return toa;
+        }
+
+        public TodosOfAssignees GetTodoOfAssigneesViewModel(int index)
+        {
+            TodosOfAssignees toa = new TodosOfAssignees { Todos = todorep.ListAll(), Asignees = assigneerep.ListAll() };
+            toa.Show = new bool[toa.Asignees.Count];
+            for (int i = 0; i < toa.Asignees.Count; i++)
+            {
+                if (i == index)
+                {
+                    toa.Show[i] = true;
+                }
+                else
+                {
+                    toa.Show[i] = false;
+                }
+                
+            }
+            return toa;
         }
     }
 }

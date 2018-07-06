@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoAppVol3.Models;
@@ -36,6 +37,7 @@ namespace TodoApp.Repositories
         {
             todoContext.Todos.Update(t);
             todoContext.SaveChanges();
+            
         }
 
         public Todo GetElement(long id)
@@ -47,5 +49,21 @@ namespace TodoApp.Repositories
         {
             return todoContext.Todos.Where(x => x.Title.ToLower().Contains(searchedString.ToLower())).ToList();
         }
+        public void UpdateBoth(Todo t)
+        {
+            /*if (todoContext.Assignees.FirstOrDefault(x => x.Id == t.Assignee.Id).Todos == null)
+            {
+                todoContext.Assignees.FirstOrDefault(x => x.Id == t.Assignee.Id).Todos = new Collection<Todo>();
+            }
+            todoContext.Assignees.FirstOrDefault(x => x.Id == t.Assignee.Id).Todos.Add(t);
+            todoContext.Update(todoContext.Assignees.FirstOrDefault(x => x.Id == t.Assignee.Id));
+            //todoContext.SaveChanges();*/
+            todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).Assignee = todoContext.Assignees.FirstOrDefault(y => y.Id == t.Assignee.Id);
+            todoContext.SaveChanges();
+            
+           
+           
+        }
+        
     }
 }

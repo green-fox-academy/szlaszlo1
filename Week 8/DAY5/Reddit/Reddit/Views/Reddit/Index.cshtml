@@ -1,0 +1,26 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<a href="/submit">Submit new post</a>>
+<h2 style="margin:auto">Trending posts</h2>
+@if (Model!=null)
+{
+    <table>
+    @foreach (Post post in Model)
+    {
+        <tr>
+            <td>@post.Upvote-@post.DownVote</td>
+            <td><a href="@post.Id/upVote">content</a></td>
+            <td><a href="@post.Id/downVote">content</a></td>
+            <td><a href=@post.Url>@post.Title</a></td>
+        </tr>
+    }
+    </table>
+
+}
+
+
+
+

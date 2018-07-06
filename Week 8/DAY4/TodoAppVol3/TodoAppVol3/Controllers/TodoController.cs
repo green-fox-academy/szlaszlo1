@@ -56,7 +56,7 @@ namespace TodoApp.Controllers
         [HttpPost("/{id}/edit")]
         public IActionResult Update(Todo t)
         {
-            todosrv.Update(t);
+            todosrv.SetConnection(t);
             return RedirectToAction("List");
         }
         [HttpPost("/searchtodos")]
@@ -92,6 +92,17 @@ namespace TodoApp.Controllers
         {
             todosrv.Update(a);
             return RedirectToAction("Assignees");
+        }
+        [HttpGet("/test")]
+        public IActionResult Test()
+        {
+            return View(todosrv.GetTodoOfAssigneesViewModel());
+        }
+        [HttpPost("/showHide")]
+        public IActionResult ShowHide(int i)
+        {
+
+            return View("Test", todosrv.GetTodoOfAssigneesViewModel(i));
         }
     }
 }
