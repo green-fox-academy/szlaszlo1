@@ -12,5 +12,6 @@ namespace Reddit.Models
         public string Url { get; set; }
         public int Upvote { get; set; }
         public int DownVote { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

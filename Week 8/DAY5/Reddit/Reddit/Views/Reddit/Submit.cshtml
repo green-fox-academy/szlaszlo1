@@ -8,8 +8,20 @@
 <div class="container">
     <h2>AddNew</h2>
     <form action="/submit" method="post">
-        Title:<input type="text" name="Title" /><br/>
-        Url:<input type="url" name="Url" /><br/>
-        <button type="submit">Submit</button>
+        <table class="table table-striped">
+            <tr>
+                <td style="width:20%;">Name:</td>
+                <td align="left"><input type="text" name="Title"  style="width:100%;"/></td>
+            </tr>
+            <tr>
+                <td style="width:20%;">Url:</td>
+                <td align="left"><input  style="width:100%;" type="url" name="Url"/></td>
+            </tr>
+            <tr>
+               <td colspan="2"> <button type="submit">Submit</button></td>
+            </tr>
+        </table>
+        
+        
     </form>
 </div>

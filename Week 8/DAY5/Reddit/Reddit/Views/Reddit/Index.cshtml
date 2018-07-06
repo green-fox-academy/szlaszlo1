@@ -14,9 +14,10 @@
         int rate = @post.Upvote - @post.DownVote;
         <tr align="center">
             <td style="width:5%;">@rate</td>
-            <td style="width:5%;"><a class="button"  href="@post.Id/upVote">+</a></td>
-            <td style="width:5%;"><a class="button"  href="@post.Id/downVote">-</a></td>
+            <td style="width:5%;"><a class="button" href="@post.Id/upVote">+</a></td>
+            <td style="width:5%;"><a class="button" href="@post.Id/downVote">-</a></td>
             <td align="left"><a href=@post.Url>@post.Title</a></td>
+            <td align="left">@post.CreatedAt</td>
         </tr>
     }
     </table>

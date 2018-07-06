@@ -16,6 +16,7 @@ namespace Reddit.Services
         }
         public void AddNew(Post p)
         {
+            p.CreatedAt = DateTime.Now;
             redditrepo.Create(p);
         }
 
