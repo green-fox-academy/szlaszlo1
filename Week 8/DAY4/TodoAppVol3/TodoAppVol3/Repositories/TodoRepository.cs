@@ -19,7 +19,9 @@ namespace TodoApp.Repositories
 
         public List<Todo> ListAll()
         {
-            return todoContext.Todos.ToList();
+            return todoContext.Todos.Include(x => x.Assignee).ToList();
+
+            //return todoContext.Todos.ToList();
         }
         public void AddNew(Todo todo)
         {
@@ -59,6 +61,11 @@ namespace TodoApp.Repositories
             todoContext.Update(todoContext.Assignees.FirstOrDefault(x => x.Id == t.Assignee.Id));
             //todoContext.SaveChanges();*/
             todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).Assignee = todoContext.Assignees.FirstOrDefault(y => y.Id == t.Assignee.Id);
+            todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).Title = t.Title;
+            todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).IsUrgent = t.IsUrgent;
+            todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).IsDone = t.IsDone;
+
+            
             todoContext.SaveChanges();
             
            

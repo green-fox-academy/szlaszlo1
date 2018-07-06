@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace TodoAppVol3.Repositories
 
         public List<Assignee> ListAll()
         {
-            return todoContext.Assignees.ToList();
+            return todoContext.Assignees.Include(a=>a.Todos).ToList();
         }
 
         public void Update(Assignee t)

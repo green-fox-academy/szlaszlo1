@@ -7,22 +7,24 @@
 <h2>Test</h2>
 
 <table class="table table-bordered table-responsive table-hover">
-    @foreach (Assignee ass in Model.Asignees)
+    @foreach (Assignee assi in Model.Asignees)
     {
         <tr>
             <td>
                 <form action="/showHide" method="post">
-                    <button type="submit" name="index" value=@Model.Asignees.IndexOf(ass)>+</button>
+                    <button type="submit" name="index" value=@Model.Asignees.IndexOf(assi)>+</button>
                 </form>
             </td>
-            <td>@ass.Name</td>
-            <td>@ass.Email</td>
+            <td>@assi.Name</td>
+            <td>@assi.Email</td>
         </tr>
-        @if (Model.Show[Model.Asignees.IndexOf(ass)])
+        @if (Model.Show[Model.Asignees.IndexOf(assi)])
         {
             @foreach (Todo todo in Model.Todos)
             {
-                @if (todo.Assignee.Id == ass.Id)
+                @if (todo.Assignee != null)
+                {
+                @if (todo.Assignee.Id == assi.Id)
                 {
                     <tr>
                         <td>@todo.Title</td>
@@ -30,6 +32,7 @@
                         <td>@todo.IsUrgent</td>
                     </tr>
                 }
+               }
             }
 
         }
