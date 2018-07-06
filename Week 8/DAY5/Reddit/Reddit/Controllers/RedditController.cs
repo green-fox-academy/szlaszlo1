@@ -33,8 +33,13 @@ namespace Reddit.Controllers
             redditsrv.DownVote(id);
             return RedirectToAction("Index");
         }
-        [HttpPost("/addNew")]
-        public IActionResult AddNew(Post p)
+        [HttpGet("/submit")]
+        public IActionResult Submit()
+        {
+            return View();
+        }
+        [HttpPost("/submit")]
+        public IActionResult Submit(Post p)
         {
             redditsrv.AddNew(p);
             return RedirectToAction("Index");
