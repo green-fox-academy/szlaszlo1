@@ -1,4 +1,4 @@
-﻿@model List<Assignee>
+﻿@model TodosOfAssignees
 @{
     ViewData["Title"] = "Assignees";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,16 +22,73 @@
 </form>
 <form action="/removeAssignee" method="post">
     <table class="table table-bordered table-responsive table-hover">
-        @foreach (Assignee item in Model)
-        {
+        @foreach (Assignee assi in Model.Asignees)
+    {
+        <tr>
+            <td style="width:5%;text-align:center;">
+                <input type="checkbox" name="id" value=@assi.Id />
+            </td>
+            <td style="width:5%; text-align:center;">
+                @if (assi.Todos.Count == 0)
+    {
+            
+}
+else
+{
+if (Model.Show.ElementAt(Model.Asignees.IndexOf(assi)) == true)
+{
+            <a style="
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 6px 9px 6px 9px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    box-shadow:inset -1px -1px 1px 0px;" href="/listAssignees">-</a>
+}
+else
+{
+            <a style="
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 6px 8px 6px 8px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    box-shadow:inset -1px -1px 1px 0px;" href="@assi.Id/showHide">+</a>
+}
+}
 
-            <tr>
-                <td><input type="radio" name="id" value=@item.Id></td>
-                <td>@item.Name</td>
-                <td>@item.Email</td>
-                <td><a href="/@item.Id/editAssignee">EDIT</a></td>
-            </tr>
-        }
+
+            </td>
+            <td style="width:45%;">@assi.Name</td>
+            <td style="width:45%;">@assi.Email</td>
+        </tr>
+        @if (Model.Show[Model.Asignees.IndexOf(assi)])
+    {
+        @foreach (Todo todo in Model.Todos)
+    {
+        @if (todo.Assignee != null)
+    {
+        @if (todo.Assignee.Id == assi.Id)
+    {
+        <tr>
+            <td colspan="2">@todo.Title</td>
+            <td style="width:45%;">@todo.CreatedAt</td>
+            <td style="width:45%;">@todo.IsUrgent</td>
+        </tr>
+}
+}
+}
+
+}
+}
     </table>
     <button type="submit">Delete selected</button>
 </form>

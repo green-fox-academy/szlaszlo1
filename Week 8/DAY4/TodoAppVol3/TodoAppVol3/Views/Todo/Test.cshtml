@@ -10,13 +10,13 @@
     @foreach (Assignee assi in Model.Asignees)
     {
         <tr>
-            <td>
+            <td style="width:20%;">
                 <form action="/showHide" method="post">
-                    <button type="submit" name="index" value=@Model.Asignees.IndexOf(assi)>+</button>
+                    <button type="submit" name="i" value=@Model.Asignees.IndexOf(assi)>+</button>
                 </form>
             </td>
-            <td>@assi.Name</td>
-            <td>@assi.Email</td>
+            <td style="width:40%;">@assi.Name</td>
+            <td style="width:40%;">@assi.Email</td>
         </tr>
         @if (Model.Show[Model.Asignees.IndexOf(assi)])
         {
@@ -27,9 +27,9 @@
                 @if (todo.Assignee.Id == assi.Id)
                 {
                     <tr>
-                        <td>@todo.Title</td>
-                        <td>@todo.CreatedAt</td>
-                        <td>@todo.IsUrgent</td>
+                        <td style="width:20%;">@todo.Title</td>
+                        <td style="width:40%;">@todo.CreatedAt</td>
+                        <td style="width:40%;">@todo.IsUrgent</td>
                     </tr>
                 }
                }

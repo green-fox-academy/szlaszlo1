@@ -1,4 +1,4 @@
-﻿@model List<Todo>
+﻿@model TodosOfAssignees
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,20 +18,35 @@
     <th>Title</th>
     <th>Is urgent?</th>
     <th>Is done?</th>
+    <th>Assignee</th>
+    <th>Created</th>
     <th>Delete</th>
     <th>Edit</th>
     </thead>
 
-    @foreach (Todo t in Model)
+    @foreach (Todo t in Model.Todos)
     {
-        <tr>
-            <td>@t.Id</td>
-            <td>@t.Title</td>
-            <td>@t.IsUrgent</td>
-            <td>@t.IsDone</td>
-            <td><a href="/@t.Id/delete">Delete</a></td>
-            <td><a href="/@t.Id/edit">Edit</a></td>
-        </tr>
+    <tr>
+        <td>@t.Id</td>
+        <td>@t.Title</td>
+        <td>@t.IsUrgent</td>
+        <td>@t.IsDone</td>
+        
+            @if (t.Assignee != null)
+            {
+            <td>
+            @Model.Asignees.FirstOrDefault(x => x.Id == t.Assignee.Id).Name
+            </td>
+            }
+            else
+            {
+                <td>No one</td>
+            }
+
+        <td>@t.CreatedAt</td>
+        <td><a href="/@t.Id/delete">Delete</a></td>
+        <td><a href="/@t.Id/edit">Edit</a></td>
+    </tr>
     }
 </table>
 

@@ -30,6 +30,7 @@ namespace TodoAppVol3.Services
 
         public void AddNew(Todo t)
         {
+            t.CreatedAt = DateTime.Now;
             todorep.AddNew(t);
         }
 
@@ -63,9 +64,12 @@ namespace TodoAppVol3.Services
             todorep.Delete(id);
         }
 
-        public void DeleteAssignee(long id)
+        public void DeleteAssignee(long[] id)
         {
-            assigneerep.Delete(id);
+            foreach (long i in id)
+            {
+                assigneerep.Delete(i);
+            }
         }
 
         public List<Todo> GetFilteredTodo(string searchedString)
@@ -106,7 +110,7 @@ namespace TodoAppVol3.Services
             toa.Show = new bool[toa.Asignees.Count];
             for (int i = 0; i < toa.Asignees.Count; i++)
             {
-                if (i == index)
+                if (toa.Asignees.ElementAt(i).Id==index)
                 {
                     toa.Show[i] = true;
                 }

@@ -25,7 +25,7 @@ namespace TodoApp.Controllers
         [Route("list")]
         public IActionResult List()
         {
-            return View(todosrv.ListAllTodo());
+            return View(todosrv.GetTodoOfAssigneesViewModel());
         }
 
         [HttpGet("/addnew")]
@@ -66,9 +66,17 @@ namespace TodoApp.Controllers
         }
 
         [HttpGet("/listAssignees")]
-        public IActionResult Assignees()
+        public IActionResult Assignees(int? id)
         {
-            return View(todosrv.ListAllAssignee());
+            if (id == null)
+            {
+                return View(todosrv.GetTodoOfAssigneesViewModel());
+            }
+            else
+            {
+                return View(todosrv.GetTodoOfAssigneesViewModel(Convert.ToInt32(id)));
+            }
+            
         }
         [HttpPost("/addAssignee")]
         public IActionResult AddAssignee(Assignee a)
@@ -77,7 +85,7 @@ namespace TodoApp.Controllers
             return RedirectToAction("Assignees");
         }
         [HttpPost("/removeAssignee")]
-        public IActionResult RemoveAssignee(int id)
+        public IActionResult RemoveAssignee(params long[] id)
         {
             todosrv.DeleteAssignee(id);
             return RedirectToAction("Assignees");
@@ -98,11 +106,10 @@ namespace TodoApp.Controllers
         {
             return View(todosrv.GetTodoOfAssigneesViewModel());
         }
-        [HttpPost("/showHide")]
-        public IActionResult ShowHide(int i)
+        [HttpGet("/{index}/showHide")]
+        public IActionResult ShowHide(int index)
         {
-
-            return View("Test", todosrv.GetTodoOfAssigneesViewModel(i));
+            return RedirectToAction("Assignees", new { id = index });
         }
     }
 }
