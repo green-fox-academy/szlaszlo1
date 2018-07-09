@@ -18,7 +18,7 @@ namespace TodoAppVol3.Services
         Assignee GetAssignee(long id);
         void DeleteTodo(long id);
         void DeleteAssignee(long[] id);
-        List<Todo> GetFilteredTodo(string searchedString);
+        TodosOfAssignees GetFilteredTodo(string searchedString);
         List<Assignee> GetFilteredAssignee(string searchedString);
         EditTodoViewModel GetViewModel(long id);
         TodosOfAssignees GetTodoOfAssigneesViewModel();

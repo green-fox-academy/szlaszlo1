@@ -72,9 +72,16 @@ namespace TodoAppVol3.Services
             }
         }
 
-        public List<Todo> GetFilteredTodo(string searchedString)
+        public TodosOfAssignees GetFilteredTodo(string searchedString)
         {
-            return todorep.LisrSearch(searchedString);
+            if (searchedString != null)
+            {
+                return new TodosOfAssignees { Todos = todorep.LisrSearch(searchedString), Asignees = assigneerep.ListAll() };
+            }
+            else
+            {
+                return GetTodoOfAssigneesViewModel();
+            }
         }
         public List<Assignee> GetFilteredAssignee(string searchedString)
         {
@@ -88,8 +95,9 @@ namespace TodoAppVol3.Services
 
         public void SetConnection(Todo t)
         {
-
-            todorep.UpdateBoth(t);
+            t.Assignee = assigneerep.GetElement(t.Assignee.Id);
+            //todorep.UpdateBoth(t);
+            todorep.Update(t);
             
         }
 

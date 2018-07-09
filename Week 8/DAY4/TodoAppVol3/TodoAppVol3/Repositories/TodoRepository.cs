@@ -49,6 +49,7 @@ namespace TodoApp.Repositories
 
         public List<Todo> LisrSearch(string searchedString)
         {
+           
             return todoContext.Todos.Where(x => x.Title.ToLower().Contains(searchedString.ToLower())).ToList();
         }
         public void UpdateBoth(Todo t)
@@ -64,12 +65,12 @@ namespace TodoApp.Repositories
             todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).Title = t.Title;
             todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).IsUrgent = t.IsUrgent;
             todoContext.Todos.FirstOrDefault(x => x.Id == t.Id).IsDone = t.IsDone;
+            //todoContext.Todos.Update(t);
 
-            
             todoContext.SaveChanges();
-            
-           
-           
+
+
+
         }
         
     }
