@@ -62,35 +62,74 @@ namespace Frontend.Controllers
         [HttpPost("/dountil/{what}")]
         public IActionResult DoUntil(string what,[FromBody]Until until)
         {
-            
-            if (what == "sum" && until!=null && until.until!=null)
+            if (until != null && until.until != null && until.until < 10)
             {
-               
-                for (int i = Convert.ToInt32(until.until)-1; i > 0; i--)
+                if (what == "sum")
                 {
-                    until.until += i;
+
+                    for (int i = Convert.ToInt32(until.until) - 1; i > 0; i--)
+                    {
+                        until.until += i;
+                    }
+                    return Json(new { result = until.until });
                 }
-                return Json(new { result = until.until });
-            }
-            else if (what == "factor" && until!=null && until.until!=null)
-            {
-                 
-                for (int i = Convert.ToInt32(until.until)-1; i >1; i--)
+                else if (what == "factor")
                 {
-                    until.until *= i;
+
+                    for (int i = Convert.ToInt32(until.until) - 1; i > 1; i--)
+                    {
+                        until.until *= i;
+                    }
+                    return Json(new { result = until.until });
                 }
-                return Json(new { result = until.until });
             }
             //else if(until==null || until.until==null)
             //{
             //    return Json(new { error = "Please provide a number!" });
             //}
+            //else
+            //{
+            //    return Json(new { error = "Please provide a number!" });
+            //}
+
+            return Json(new { error = "Please provide a number!" });
+        }
+
+        [HttpPost("/arrays")]
+        public IActionResult Arrays([FromBody]Arrays a)
+        {
+            if (a.Numbers!=null && a.Numbers.Length > 0)
+            {
+                switch (a.What)
+                {
+                    case "sum":
+                        int sum = 0;
+                        foreach (int item in a.Numbers)
+                        {
+                            sum += item;
+                        }
+                        return Json(new { result = sum });
+                    case "multiply":
+                        int multiply = 1;
+                        foreach (int item in a.Numbers)
+                        {
+                            multiply *= item;
+                        }
+                        return Json(new { result = multiply });
+                    case "double":
+                        for (int i = 0; i < a.Numbers.Length; i++)
+                        {
+                            a.Numbers[i] *= 2;
+                        }
+                        return Json(new { result = a.Numbers });
+                    default:
+                        return Json(new { error = "Please provide what to do with the numbers!" });
+                }
+            }
             else
             {
-                return Json(new { error = "Please provide a number!" });
+                return Json(new { error = "Please provide numbers!" });
             }
-           
-            
         }
     }
 }
