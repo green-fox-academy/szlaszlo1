@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Frontend.Models;
+using Frontend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -12,6 +13,12 @@ namespace Frontend.Controllers
     
     public class HomeController : Controller
     {
+        ILogService logsrv;
+        public HomeController(ILogService logsrv)
+        {
+            this.logsrv = logsrv;
+        }
+
 
         [HttpGet("/")]
         public IActionResult Index()
@@ -24,6 +31,7 @@ namespace Frontend.Controllers
         [HttpGet("/doubling")]
         public IActionResult DoubleIng(int? input)
         {
+            logsrv.AddNew("/doubling", "input"+input.ToString());
             if (input != null)
             {
                 return Json(new {received=input,result=input*2});
@@ -37,6 +45,7 @@ namespace Frontend.Controllers
         [HttpGet("/greeter")]
         public IActionResult Greeter(string name,string title)
         {
+            logsrv.AddNew("/greeter","name"+ name + ";" +"title="+ title);
             if (name== null)
             {
                 return Json(new { error = "Please provide a name!" });
@@ -55,6 +64,7 @@ namespace Frontend.Controllers
         [HttpGet("/appenda/{appendable}")]
         public IActionResult AppendA(string appendable)
         {
+            logsrv.AddNew("/appenda","appendable="+ appendable);
             return Json(new { appended = appendable+"a" });
         }
 
@@ -62,8 +72,10 @@ namespace Frontend.Controllers
         [HttpPost("/dountil/{what}")]
         public IActionResult DoUntil(string what,[FromBody]Until until)
         {
+            
             if (until != null && until.until != null && until.until < 10)
             {
+                logsrv.AddNew("/dountil", "what=" + what + "until=" + until.ToString());
                 if (what == "sum")
                 {
 
@@ -83,6 +95,10 @@ namespace Frontend.Controllers
                     return Json(new { result = until.until });
                 }
             }
+            else
+            {
+                logsrv.AddNew("/dountil", "what=" + what + "until=NULL");
+            }
             //else if(until==null || until.until==null)
             //{
             //    return Json(new { error = "Please provide a number!" });
@@ -98,6 +114,7 @@ namespace Frontend.Controllers
         [HttpPost("/arrays")]
         public IActionResult Arrays([FromBody]Arrays a)
         {
+            logsrv.AddNew("/arrays", "input="+a.ToString());
             if (a.Numbers!=null && a.Numbers.Length > 0)
             {
                 switch (a.What)
@@ -130,6 +147,12 @@ namespace Frontend.Controllers
             {
                 return Json(new { error = "Please provide numbers!" });
             }
+        }
+
+        [HttpGet("/log")]
+        public IActionResult Log()
+        {
+            return Json(new {entries=logsrv.GetAll(), entry_count=logsrv.GetAll().Count });
         }
     }
 }
