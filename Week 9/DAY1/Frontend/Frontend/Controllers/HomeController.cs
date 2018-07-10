@@ -154,5 +154,63 @@ namespace Frontend.Controllers
         {
             return Json(new {entries=logsrv.GetAll(), entry_count=logsrv.GetAll().Count });
         }
+
+        [HttpPost("/sith")]
+        public IActionResult Sith([FromBody]SithText text)
+        {
+            text.Text=text.Text.Substring(0,text.Text.Length-1)
+            string[] sentences = text.Text.Split(".");
+            for (int i=0;i<sentences.Length;i++)
+            {
+                if(sentences[i].StartsWith(' '))
+                {
+                    sentences[i] = sentences[i].Substring(1);
+                }
+                string[] words = sentences[i].Split(" ");
+                string temps = "";
+                for (int j = 0; j < words.Length; j=j+2)
+                {
+                    if (j + 1 < words.Length)
+                    {
+                        if (j==0)
+                        {
+                            words[j] = words[j].ToLower();
+                            words[j + 1] = words[j + 1].Substring(0, 1).ToUpper() + words[j + 1].Substring(1);
+                        }
+                        string temp = words[j];
+                        words[j] = words[j + 1];
+                        words[j + 1] = temp;
+                    }
+                }
+                for (int f = 0; f < words.Length; f++)
+                {
+                    if (f+1>=words.Length)
+                    {
+                        temps += words[f] + ".";
+                    }
+                    else
+                    {
+                        temps += words[f] + " ";
+                    }
+                }
+                sentences[i] = temps;
+            }
+            Random rnd = new Random();
+            string[] rndString = new string[] { " Arrgh.", " Uhmm.", " Err...err.err." };
+            string sith_string="";
+            for (int i = 0; i < sentences.Length; i++)
+            {
+                int rndNum=rnd.Next(1, 3);
+                if(i>0)
+                    sith_string +=' ';
+                sith_string += sentences[i];
+                for (int k = 0; k < rndNum; k++)
+                {
+                    sith_string += rndString[rnd.Next(3)];
+                }
+            }
+            return Json(new { sith_text=sith_string });
+           
+        }
     }
 }
