@@ -158,7 +158,7 @@ namespace Frontend.Controllers
         [HttpPost("/sith")]
         public IActionResult Sith([FromBody]SithText text)
         {
-            text.Text=text.Text.Substring(0,text.Text.Length-1)
+            
             string[] sentences = text.Text.Split(".");
             for (int i=0;i<sentences.Length;i++)
             {
