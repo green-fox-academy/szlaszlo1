@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -91,11 +92,72 @@ namespace FrontEndTestProject
             Assert.Equal(JsonConvert.SerializeObject(new { appended = appendable + "a" }), response.Content.ReadAsStringAsync().Result);
         }
         [Fact]
-        public async Task AppendaWithNoArgument()
+        public async Task AppendaWithoutArgument()
         {
             var respnse = await Client.GetAsync($"/appenda");
             var statusCode = respnse.StatusCode;
             Assert.Equal(HttpStatusCode.NotFound, statusCode);
+        }
+
+        [Fact]
+        public async Task DoUntilWithoutWhat()
+        {
+            var body = JsonConvert.SerializeObject(new Until() { until = 5 });
+            var respnse = await Client.PostAsync("/dountil",new StringContent(body,Encoding.UTF8,"application/json"));
+            var statusCode = respnse.StatusCode;
+            Assert.Equal(HttpStatusCode.NotFound, statusCode);
+        }
+        [Fact]
+        public async Task DoUntilSumWithoutUntil()
+        {
+            var body = JsonConvert.SerializeObject(new Until());
+            var response = await Client.PostAsync("/dountil/sum", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { error = "Please provide a number!" }), response.Content.ReadAsStringAsync().Result);
+        }
+        [Fact]
+        public async Task DoUntilFactorWithoutUntil()
+        {
+            var body = JsonConvert.SerializeObject(new Until());
+            var response = await Client.PostAsync("/dountil/factor", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { error = "Please provide a number!" }), response.Content.ReadAsStringAsync().Result);
+        }
+        [Fact]
+        public async Task DoUntilSumWithUntil()
+        {
+            Until until = new Until() { until = 5 };
+            var body = JsonConvert.SerializeObject(until);
+            int untilSum = UntilModelMethods.CalculateSum(until.until);
+            var response = await Client.PostAsync("/dountil/sum", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { result = untilSum }), response.Content.ReadAsStringAsync().Result);
+        }
+        [Fact]
+        public async Task DoUntilFactorWithUntil()
+        {
+            Until until = new Until() { until = 5 };
+            int untilFactorial = UntilModelMethods.CalculateFactor(until.until);
+            var body = JsonConvert.SerializeObject(until);
+            var response = await Client.PostAsync("/dountil/factor", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { result = untilFactorial }), response.Content.ReadAsStringAsync().Result);
+        }
+
+
+
+        [Fact]
+        public async Task ArraysWithoutWhat()
+        {
+            Arrays intArray = new Arrays() { Numbers =new int[]{1,2,5,10 }  };
+            var body = JsonConvert.SerializeObject(intArray);
+            var response = await Client.PostAsync("/arrays", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { error = "Please provide what to do with the numbers!" }), response.Content.ReadAsStringAsync().Result);
+        }
+
+        [Fact]
+        public async Task ArraysWithoutNumbers()
+        {
+            Arrays intArray = new Arrays() {What="sum" };
+            var body = JsonConvert.SerializeObject(intArray);
+            var response = await Client.PostAsync("/arrays", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(JsonConvert.SerializeObject(new { error = "Please provide numbers!" }), response.Content.ReadAsStringAsync().Result);
         }
     }
 }
