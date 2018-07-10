@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -86,8 +87,15 @@ namespace FrontEndTestProject
         [InlineData("macs")]
         public async Task AppendA(string appendable)
         {
-            var response = await Client.GetAsync($"/appenda?appendable={appendable}");
+            var response = await Client.GetAsync($"/appenda/{appendable}");
             Assert.Equal(JsonConvert.SerializeObject(new { appended = appendable + "a" }), response.Content.ReadAsStringAsync().Result);
+        }
+        [Fact]
+        public async Task AppendaWithNoArgument()
+        {
+            var respnse = await Client.GetAsync($"/appenda");
+            var statusCode = respnse.StatusCode;
+            Assert.Equal(HttpStatusCode.NotFound, statusCode);
         }
     }
 }
