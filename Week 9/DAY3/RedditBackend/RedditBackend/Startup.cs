@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RedditBackend.Repositories;
+using RedditBackend.Services;
 
 namespace RedditBackend
 {
@@ -28,6 +29,8 @@ namespace RedditBackend
             
             services.AddMvc();
             services.AddTransient<RedditContext>();
+            services.AddTransient<PostService>();
+            services.AddTransient<PostRepository>();
             services.AddDbContext<RedditContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RedditDatabase")));
         }
 

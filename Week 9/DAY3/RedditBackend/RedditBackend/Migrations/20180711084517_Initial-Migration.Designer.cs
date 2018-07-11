@@ -9,7 +9,7 @@ using RedditBackend.Repositories;
 namespace RedditBackend.Migrations
 {
     [DbContext(typeof(RedditContext))]
-    [Migration("20180711082843_Initial-Migration")]
+    [Migration("20180711084517_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,8 @@ namespace RedditBackend.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Score");
 
                     b.Property<int>("TimeStamp")
                         .IsConcurrencyToken()

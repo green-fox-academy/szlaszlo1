@@ -15,7 +15,8 @@ namespace RedditBackend.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    TimeStamp = table.Column<int>(nullable: false)
+                    TimeStamp = table.Column<int>(nullable: false),
+                    Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
