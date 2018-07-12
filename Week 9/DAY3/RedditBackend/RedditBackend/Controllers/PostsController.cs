@@ -32,9 +32,9 @@ namespace RedditBackend.Controllers
         }
 
         [HttpPost("/posts")]
-        public IActionResult AddNewPost([FromBody]Post newPost)
+        public IActionResult AddNewPost([FromBody]Post newPost,[FromHeader]string UserName)
         {
-            return Json(new {post=postSrv.AddPost(newPost) });
+            return Json(postSrv.AddPost(newPost,UserName));
         }
 
         [HttpPut("/posts/{id}/upvote")]
@@ -49,10 +49,17 @@ namespace RedditBackend.Controllers
             return Json(postSrv.Downvote(id));
         }
 
-        //[HttpDelete("/posts/{id}")]
-        //public IActionResult Delete(int id)
-        //{
+        [HttpDelete("/posts/{id}")]
+        public IActionResult Delete(int id,[FromHeader]string Username)
+        {
+            return Content("SuccessBuild");
+        }
+
+        [HttpPost("/newuser")]
+        public IActionResult AddNewUser([FromBody]User user)
+        {
             
-        //}
+            return Json(postSrv.AddUser(user));
+        }
     }
 }

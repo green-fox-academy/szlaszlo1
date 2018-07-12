@@ -31,6 +31,7 @@ namespace RedditBackend
             services.AddTransient<RedditContext>();
             services.AddTransient<PostService>();
             services.AddTransient<PostRepository>();
+            services.AddTransient<UserRepository>();
             services.AddDbContext<RedditContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RedditDatabase")));
         }
 

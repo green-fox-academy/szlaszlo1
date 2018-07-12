@@ -96,9 +96,7 @@ namespace TodoAppVol3.Services
         public void SetConnection(Todo t)
         {
             t.Assignee = assigneerep.GetElement(t.Assignee.Id);
-            //todorep.UpdateBoth(t);
             todorep.Update(t);
-            
         }
 
         public TodosOfAssignees GetTodoOfAssigneesViewModel()

@@ -9,7 +9,7 @@ using RedditBackend.Repositories;
 namespace RedditBackend.Migrations
 {
     [DbContext(typeof(RedditContext))]
-    [Migration("20180711084517_Initial-Migration")]
+    [Migration("20180712081947_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,17 +28,40 @@ namespace RedditBackend.Migrations
 
                     b.Property<int>("Score");
 
-                    b.Property<int>("TimeStamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<long>("TimeStamp");
 
                     b.Property<string>("Title");
 
                     b.Property<string>("Url");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("RedditBackend.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RedditBackend.Models.Post", b =>
+                {
+                    b.HasOne("RedditBackend.Models.User", "Owner")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

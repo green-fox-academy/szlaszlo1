@@ -1,4 +1,5 @@
-﻿using RedditBackend.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RedditBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,32 +8,37 @@ using System.Threading.Tasks;
 
 namespace RedditBackend.Repositories
 {
-    public class PostRepository
+    public class PostRepository:IRedditRepository<Post>
     {
         RedditContext redditContext;
         public PostRepository(RedditContext redditContext)
         {
             this.redditContext = redditContext;
         }
-        public List<Post> ReadAllPosts()
+        public List<Post> ReadAll()
         {
-            return redditContext.Posts.ToList();
+            return redditContext.Posts.Include(x=>x.Owner).ToList();
 
         }
-        public Post CreatePost(Post post)
+        public Post Create(Post post)
         {
-            post.TimeStamp=Stopwatch.GetTimestamp();
             redditContext.Posts.Add(post);
             redditContext.SaveChanges();
-            return  ReadPost(post.Id);
+            return  Read(post.Id);
         }
-        public Post ReadPost(int id)
+        public Post Read(int id)
         {
-            return redditContext.Posts.FirstOrDefault(x => x.Id == id);
+            return redditContext.Posts.Include(x=>x.Owner).FirstOrDefault(x => x.Id == id);
         }
         public void Update(Post post)
         {
             redditContext.Posts.Update(post);
+            redditContext.SaveChanges();
+        }
+
+        public void Delete(Post post)
+        {
+            redditContext.Posts.Remove(post);
             redditContext.SaveChanges();
         }
     }
