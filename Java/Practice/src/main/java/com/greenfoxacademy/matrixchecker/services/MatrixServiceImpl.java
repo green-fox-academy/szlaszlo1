@@ -9,7 +9,7 @@ public class MatrixServiceImpl implements MatrixService {
         Boolean isSquare=true;
         Boolean isIncreasing=true;
         Boolean isAllNumeric=true;
-
+        String returnMessage="The matrix is increasing!";
         if (matrixNumbers != null) {
             String[] matrix = matrixNumbers.split("\r\n");
             Integer[][] numMatrix = new Integer[matrix.length][];
@@ -17,14 +17,36 @@ public class MatrixServiceImpl implements MatrixService {
                 String[] currentString=matrix[i].split(" ");
                 if (currentString.length != matrix.length) {
                     isSquare=false;
+                    returnMessage="This is not a square matrix";
                     break;
                 }
                 numMatrix[i]=new Integer[currentString.length];
                 for (int j = 0; j < numMatrix[i].length ; j++) {
-                    numMatrix[i][j]=Integer.parseInt(currentString[j]);
+                    try {
+                        numMatrix[i][j]=Integer.parseInt(currentString[j]);
+                    }
+                    catch (NumberFormatException e){
+                        isAllNumeric=false;
+                        returnMessage="Not all member is numeric";
+                    }
+                }
+            }
+            if (isAllNumeric && isSquare) {
+                for (int i = 0; i <numMatrix.length-1 ; i++) {
+                    for (int j = 0; j <numMatrix[i].length-1 ; j++) {
+                        if (numMatrix[i][j]>numMatrix[i][j+1] ||numMatrix[i][j]>numMatrix[i+1][j]) {
+                            isIncreasing=false;
+                            returnMessage="Matrix is not increasing";
+                        }
+                    }
+                }
+                if (isIncreasing) {
 
                 }
             }
+        }
+        else {
+            returnMessage="Empty input";
         }
         return "a";
     }
