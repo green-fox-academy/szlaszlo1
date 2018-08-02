@@ -14,8 +14,14 @@ public class Matrix {
     private Date checkDate;
     private String matrixNumbers;
 
+
+
     public Matrix(String matrixNumbers) {
         this.matrixNumbers = matrixNumbers;
+        checkDate=new Date();
+    }
+
+    public Matrix() {
     }
 
     public Integer getId() {
