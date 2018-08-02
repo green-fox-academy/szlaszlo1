@@ -12,7 +12,9 @@ Add a matrix and sit back qhile evaluation happens.
 </p>
 <p>Enter matrix</p>
 <form action="/matrix" method="post">
-<textarea rows="5" cols="30" name="matrixNumbers"></textarea>
+    <c:if test="result">
+<textarea rows="5" cols="30" name="matrixNumbers" th:text="${checkedMatrix}"></textarea>
+    </c:if>
 <button type="submit">Submit</button>
 </form>
 
