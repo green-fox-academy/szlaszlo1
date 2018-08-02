@@ -15,5 +15,10 @@ Add a matrix and sit back qhile evaluation happens.
 <textarea rows="5" cols="30" name="matrixNumbers"></textarea>
 <button type="submit">Submit</button>
 </form>
+
+<c:if test="result">
+    <h1 style="color:red;">Result:</h1>
+    <h3 th:text="${result}" />
+</c:if>
 </body>
 </html>

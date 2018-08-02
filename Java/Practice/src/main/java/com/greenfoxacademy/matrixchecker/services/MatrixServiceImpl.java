@@ -32,9 +32,9 @@ public class MatrixServiceImpl implements MatrixService {
                 }
             }
             if (isAllNumeric && isSquare) {
-                for (int i = 0; i <numMatrix.length-1 ; i++) {
-                    for (int j = 0; j <numMatrix[i].length-1 ; j++) {
-                        if (numMatrix[i][j]>numMatrix[i][j+1] ||numMatrix[i][j]>numMatrix[i+1][j]) {
+                for (int i = 0; i <numMatrix.length; i++) {
+                    for (int j = 0; j <numMatrix[i].length ; j++) {
+                        if (i<numMatrix.length-1&& numMatrix[i][j]>numMatrix[i+1][j] || j<numMatrix[i].length-1 && numMatrix[i][j]>numMatrix[i][j+1]) {
                             isIncreasing=false;
                             returnMessage="Matrix is not increasing";
                         }
@@ -48,6 +48,6 @@ public class MatrixServiceImpl implements MatrixService {
         else {
             returnMessage="Empty input";
         }
-        return "a";
+        return returnMessage;
     }
 }
