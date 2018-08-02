@@ -1,9 +1,16 @@
 package com.greenfoxacademy.matrixchecker.services;
 
+import com.greenfoxacademy.matrixchecker.models.Matrix;
+import com.greenfoxacademy.matrixchecker.repositories.MatrixRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MatrixServiceImpl implements MatrixService {
+
+    @Autowired
+    MatrixRepository matrixRepository;
+
     @Override
     public String validateMatrix(String matrixNumbers) {
         Boolean isSquare=true;
@@ -41,7 +48,7 @@ public class MatrixServiceImpl implements MatrixService {
                     }
                 }
                 if (isIncreasing) {
-
+                    matrixRepository.save(new Matrix(matrixNumbers));
                 }
             }
         }

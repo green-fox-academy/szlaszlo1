@@ -22,6 +22,7 @@ public class MatrixController {
     @PostMapping("/matrix")
     public String checkIncreasingMatrix(@RequestParam(name = "matrixNumbers",required = false) String matrixNumbers, Model model){
         model.addAttribute("result",matrixService.validateMatrix(matrixNumbers));
+        model.addAttribute("checkedMatrix",matrixNumbers);
         return "main";
     }
 }
