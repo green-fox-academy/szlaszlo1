@@ -16,7 +16,6 @@ public class MatrixRestController {
     MatrixRestService matrixRestService;
     @GetMapping("/matrices")
     public ResponseEntity<?> getMatrices(){
-        List<Matrix> matrixList = matrixRestService.getMatrices();
-        return ResponseEntity.status(200).body(matrixList);
+        return ResponseEntity.status(200).body(matrixRestService.getMatrices());
     }
 }
