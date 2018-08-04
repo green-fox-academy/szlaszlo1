@@ -25,7 +25,7 @@ public class PostRestController {
     public ResponseEntity<?> addPost(@RequestParam(value = "description",required = false) String description,
                                      @RequestParam(value = "url",required = false) String url){
         if (description == null || url==null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorMessage("description or url not set"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("description or url not set"));
         }
         else{
             return ResponseEntity.status(200).body(postService.createPost(new Post(description,url)));

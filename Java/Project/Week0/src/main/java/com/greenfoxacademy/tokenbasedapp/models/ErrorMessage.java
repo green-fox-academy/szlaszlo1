@@ -1,6 +1,6 @@
 package com.greenfoxacademy.tokenbasedapp.models;
 
-public class ErrorMessage {
+public class ErrorMessage{
 
     public String errorMsg;
 
