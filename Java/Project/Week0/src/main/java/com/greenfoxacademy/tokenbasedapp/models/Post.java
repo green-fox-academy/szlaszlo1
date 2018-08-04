@@ -14,6 +14,11 @@ public class Post {
     private String url;
     private Integer rating;
 
+    public Post(String description, String url) {
+        this.description = description;
+        this.url = url;
+    }
+
     public Post() {
     }
 

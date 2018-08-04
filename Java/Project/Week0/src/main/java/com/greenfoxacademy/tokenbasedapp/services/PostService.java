@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface PostService {
-    void createPost(Post post);
+    Post createPost(Post post);
     Iterable<Post> getPosts();
     void updatePost(Post post);
     void deletePost(Post post);
