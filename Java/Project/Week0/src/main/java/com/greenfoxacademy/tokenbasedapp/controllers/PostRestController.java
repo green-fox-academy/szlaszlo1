@@ -3,13 +3,12 @@ package com.greenfoxacademy.tokenbasedapp.controllers;
 import com.greenfoxacademy.tokenbasedapp.models.ErrorMessage;
 import com.greenfoxacademy.tokenbasedapp.models.Post;
 import com.greenfoxacademy.tokenbasedapp.services.PostService;
+import netscape.security.ForbiddenTargetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PostRestController {
@@ -18,7 +17,7 @@ public class PostRestController {
 
     @GetMapping("/getposts")
     public ResponseEntity<?> listPosts(){
-        return ResponseEntity.status(200).body(postService.getPosts());
+            return ResponseEntity.status(200).body(postService.getPosts());
     }
 
     @GetMapping("/addnewpost")
@@ -30,5 +29,10 @@ public class PostRestController {
         else{
             return ResponseEntity.status(200).body(postService.createPost(new Post(description,url)));
         }
+    }
+
+    @PostMapping("/error")
+    public ResponseEntity<?> getError(){
+        return ResponseEntity.status(401).body(new ErrorMessage("You hav no permissions"));
     }
 }
