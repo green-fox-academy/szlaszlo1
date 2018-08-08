@@ -1,8 +1,16 @@
 package com.greenfoxacademy.tokenbasedapp.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 
+@Entity
 public class ApplicationUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer id;
     public String username;
     public String password;
     public String roles;

@@ -61,7 +61,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         appUser.setRoles((String)body.get("role"));
 
 
-        List<GrantedAuthority> grantedAuthorities= AuthorityUtils.commaSeparatedStringToAuthorityList(appUser.getRoles());
+        List<GrantedAuthority> grantedAuthorities= AuthorityUtils.commaSeparatedStringToAuthorityList(appUser.getRoles().substring(1,appUser.getRoles().length()-1));
         JWTUserDetails userDetails=new JWTUserDetails(appUser.getUsername(),appUser.getPassword(),grantedAuthorities);
         //UserDetails userDetails=postUserDetailsService.loadUserByUsername(userName);
         //ApplicationUser applicationUser=postUserDetailsService.loadApplicationUserByName(userName);
