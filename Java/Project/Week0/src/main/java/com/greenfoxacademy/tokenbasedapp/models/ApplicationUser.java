@@ -1,23 +1,32 @@
 package com.greenfoxacademy.tokenbasedapp.models;
 
+import java.util.ArrayList;
+
 public class ApplicationUser {
-    public String userName;
+    public String username;
     public String password;
+    public String roles;
 
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String userName, String password) {
-        this.userName = userName;
+    public ApplicationUser(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public ApplicationUser(String username, String password, String roles) {
+        this.username = username;
+        this.password = password;
+        this.roles=roles;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -26,5 +35,13 @@ public class ApplicationUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }

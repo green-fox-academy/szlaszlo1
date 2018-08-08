@@ -1,41 +1,46 @@
 package com.greenfoxacademy.tokenbasedapp.security;
 
+import com.greenfoxacademy.tokenbasedapp.services.PostUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.springframework.security.crypto.password.NoOpPasswordEncoder.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final PostUserDetailsService postUserDetailsService;
 
+    @Autowired
+    public SecurityConfig(PostUserDetailsService postUserDetailsService) {
+        this.postUserDetailsService = postUserDetailsService;
+    }
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity
-                .authorizeRequests()
-                    .antMatchers("/getposts").hasRole("ADMIN")
-                    .antMatchers("/addnewpost*").hasRole("USER")
+        httpSecurity.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/getposts").hasRole("ADMIN")
+                .antMatchers("/addnewpost*").hasRole("USER")
                 .and()
-                    .formLogin();
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), postUserDetailsService))
+                .formLogin();
+
+
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("phil").password("1234").roles("USER")
+                .withUser("phil").password("{noop}1234").roles("USER")
                 .and()
-                .withUser("admin").password("Admin1234").roles("USER","ADMIN");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return getInstance();
+                .withUser("admin").password("{noop}Admin1234").roles("USER", "ADMIN");
     }
 }

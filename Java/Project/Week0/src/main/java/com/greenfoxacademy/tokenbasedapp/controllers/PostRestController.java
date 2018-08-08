@@ -23,16 +23,8 @@ public class PostRestController {
     @GetMapping("/addnewpost")
     public ResponseEntity<?> addPost(@RequestParam(value = "description",required = false) String description,
                                      @RequestParam(value = "url",required = false) String url){
-        if (description == null || url==null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorMessage("description or url not set"));
-        }
-        else{
-            return ResponseEntity.status(200).body(postService.createPost(new Post(description,url)));
-        }
+        return  ResponseEntity.status(200).body(postService.createPost(new Post(description,url)));
     }
 
-    @PostMapping("/error")
-    public ResponseEntity<?> getError(){
-        return ResponseEntity.status(401).body(new ErrorMessage("You hav no permissions"));
-    }
+
 }
