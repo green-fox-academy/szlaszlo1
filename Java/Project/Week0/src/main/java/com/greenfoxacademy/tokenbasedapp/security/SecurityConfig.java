@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -29,9 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/getposts").hasRole("ADMIN")
                 .antMatchers("/addnewpost*").hasRole("USER")
                 .and()
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), postUserDetailsService))
-                .formLogin();
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), postUserDetailsService));
 
 
     }
