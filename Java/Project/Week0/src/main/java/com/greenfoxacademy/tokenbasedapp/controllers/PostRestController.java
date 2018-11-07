@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class PostRestController {
     @Autowired
@@ -23,6 +25,7 @@ public class PostRestController {
     @GetMapping("/addnewpost")
     public ResponseEntity<?> addPost(@RequestParam(value = "description",required = false) String description,
                                      @RequestParam(value = "url",required = false) String url){
+        HttpSession
         return  ResponseEntity.status(200).body(postService.createPost(new Post(description,url)));
     }
 
